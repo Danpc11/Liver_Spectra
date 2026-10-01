@@ -1,0 +1,27 @@
+gene_name,target_class,drug_landscape,development_stage
+LGALS3,galectin-3,belapectin (GR-MD-02): phase 2b NASH cirrhosis negative on fibrosis (NCT02462967); phase 3 NAVIGATE (NCT04365868) reported 2025,"clinical, liver"
+CCN2,CTGF,pamrevlumab (FG-3019): IPF phase 3; liver fibrosis phase 2 paused,"clinical, other fibrosis"
+TREM2,TREM2,agonist antibodies in development (neurodegeneration); scar-associated macrophage marker; no liver trial,preclinical
+MMP2,MMP2,broad MMP inhibitors failed in oncology; no fibrosis programme,tool compounds
+PLAU,uPA,amiloride/UK-371804 inhibit uPA; anti-uPAR antibodies preclinical,tool compounds
+TIMP1,TIMP1,no direct modulator; ELF-score biomarker,biomarker
+THBS2,THBS2,serum biomarker of advanced fibrosis; no modulator,biomarker
+IGFBP7,IGFBP7,antibody preclinical (senescence/cardiometabolic); CKD biomarker,preclinical
+PYCARD,ASC/inflammasome,"NLRP3 inhibitors (MCC950 class, dapansutrile, DFV890) in clinical development incl. MASH","clinical, inflammasome"
+CARD16,caspase-1 axis,"VX-765 (belnacasan) caspase-1 inhibitor, clinical history","clinical, other"
+IL32,IL-32,no modulator; cytokine linked to MASLD,none
+RIPK3,RIPK3,RIPK3/MLKL inhibitors preclinical; RIPK1 inhibitors clinical,preclinical
+TNFRSF10A,TRAIL-R1,agonist antibodies (mapatumumab) oncology,"clinical, other"
+ADGRG1,GPR56,no modulator,none
+ITGA6,integrin a6,antibodies preclinical,preclinical
+PIK3R3,PI3K regulatory,PI3K inhibitors approved (oncology),"approved, other"
+ANGPTL2,ANGPTL2,no modulator; ANGPTL3 antibodies approved (evinacumab),none
+S100A11,S100A11,no modulator,none
+S100A10,S100A10/annexin A2,no modulator,none
+IER3,IER3,not druggable,none
+COL1A1,collagen I,HSP47 siRNA BMS-986263 (NCT06646276),"clinical, liver"
+DCN,decorin,recombinant decorin preclinical,preclinical
+GSN,gelsolin,recombinant plasma gelsolin clinical (sepsis),"clinical, other"
+FABP5,FABP5,FABP4/5 inhibitors preclinical,preclinical
+HLA-DMA,MHC-II,not a target,none
+CD300LF,CD300LF,no modulator,none

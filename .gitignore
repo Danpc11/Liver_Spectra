@@ -1,0 +1,6 @@
+results/intermediate/
+data/external/GSE136103/
+data/external/*.zip
+data/external/*.tar
+__pycache__/
+.venv/

@@ -1,0 +1,13 @@
+features,n_features,task,metric,value
+spectrum,10007,early_vs_advanced,AUC,0.919
+spectrum,10007,normal_vs_advanced,AUC,0.998
+spectrum,10007,ordinal,Spearman,0.653
+expression_2000,2000,early_vs_advanced,AUC,0.906
+expression_2000,2000,normal_vs_advanced,AUC,1.0
+expression_2000,2000,ordinal,Spearman,0.691
+spectrum_shuffled_order,10007,early_vs_advanced,AUC,0.907
+spectrum_shuffled_order,10007,normal_vs_advanced,AUC,0.998
+spectrum_shuffled_order,10007,ordinal,Spearman,0.662
+bands_x_chromosome,205,early_vs_advanced,AUC,0.884
+bands_x_chromosome,205,normal_vs_advanced,AUC,0.99
+bands_x_chromosome,205,ordinal,Spearman,0.563

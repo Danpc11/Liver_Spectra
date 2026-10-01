@@ -1,0 +1,16 @@
+numpy>=1.26
+pandas>=2.2
+scipy>=1.11
+statsmodels>=0.14
+scikit-learn>=1.4
+matplotlib>=3.8
+seaborn>=0.13
+SciencePlots>=2.1
+adjustText>=1.1
+pydeseq2==0.5.4
+gseapy>=1.1
+pycirclize>=1.6
+pyreadr>=0.5
+pyannotables>=0.0.6
+fooof>=1.1
+goatools>=1.3
