@@ -58,7 +58,7 @@ does not define cirrhosis, the switch does.
 | [GWAS Catalog](https://www.ebi.ac.uk/gwas/) | genome-wide significant associations | MASLD and cirrhosis loci, non-liver controls | Sollis et al., *Nucleic Acids Res* 2023 · [10.1093/nar/gkac1010](https://doi.org/10.1093/nar/gkac1010) |
 | [Liver TADs](https://github.com/emcarthur/TAD-stability-heritability) | liver topologically associating domains (hg19) | TAD test | McArthur & Capra, *Am J Hum Genet* 2021 · [10.1016/j.ajhg.2020.12.008](https://doi.org/10.1016/j.ajhg.2020.12.008) |
 | [DoRothEA](https://github.com/saezlab/dorothea) · [MSigDB Hallmark](https://www.gsea-msigdb.org) | TF regulons; Hallmark gene sets | TF activity; GSEA | Garcia-Alonso et al., *Genome Res* 2019 · Liberzon et al., *Cell Syst* 2015 |
-| this study | mouse liver RNA-seq (control vs UTP, n = 3 + 3) | cross-species replication | GEO accession pending |
+
 
 The three bulk cohorts are shipped in `data/raw/` as raw counts; all other resources are downloaded (see
 [Reproduce the analysis](#reproduce-the-analysis)), because of their size and their own licences.
