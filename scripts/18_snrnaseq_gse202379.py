@@ -6,7 +6,7 @@ with the bulk composition-adjusted effect, hepatocyte class and drug receptors, 
 Stage coding: healthy = Normal; NAFLD/NASH biopsies by SAF F0–F4; end-stage explants analysed as F4 (and excluded in a
 sensitivity analysis). Outputs: Table_S18a–h
 """
-import os, re, glob, gzip, sys, warnings, numpy as np, pandas as pd
+import os, glob, gzip, sys, warnings, numpy as np, pandas as pd
 warnings.filterwarnings('ignore')
 from scipy import stats
 from common import *
@@ -165,7 +165,6 @@ def step_c():
 def step_d():
     """Supplementary Figure: validation in snRNA-seq."""
     import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt, scienceplots
-    from matplotlib.lines import Line2D
     plt.style.use(['science', 'nature', 'no-latex'])
     plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Liberation Sans', 'Arial'], 'font.size': 7, 'axes.labelsize': 7, 'xtick.labelsize': 7, 'ytick.labelsize': 7,
                          'legend.fontsize': 6.5, 'axes.linewidth': 0.5, 'xtick.top': False, 'ytick.right': False, 'xtick.minor.visible': False, 'ytick.minor.visible': False,
@@ -223,7 +222,7 @@ def step_e():
     for c, g in order.groupby('chr'):
         n = g.gene_name.values; pairs += list(zip(n[:-1], n[1:]))
     allS = np.hstack([np.load(f)['S'] for f in sorted(glob.glob(os.path.join(CACHE, '*_scores.npz')))]); q99 = np.percentile(allS, 99, axis=1, keepdims=True)
-    types = np.array(list(MARK)); rng = np.random.default_rng(0); rows = []
+    types = np.array(list(MARK)); rng = np.random.default_rng(0)
     part = os.path.join(CACHE, 'coexpr_partial.csv'); done = set(pd.read_csv(part).gsm) if os.path.exists(part) else set()
     for f in sorted(glob.glob(os.path.join(DD, 'GSM*raw_counts_csv.gz'))):
         gsm = os.path.basename(f).split('_')[0]
@@ -252,7 +251,7 @@ def step_e():
     S.round(5).to_csv(out, index=False); print(S.round(4).to_string(index=False))
 
 if __name__ == '__main__':
-    stp = sys.argv[1] if len(sys.argv) > 1 else 'ABC'
+    stp = sys.argv[1] if len(sys.argv) > 1 else 'ABCDE'
     if 'A' in stp: step_a()
     if 'B' in stp: step_b()
     if 'C' in stp: step_c()

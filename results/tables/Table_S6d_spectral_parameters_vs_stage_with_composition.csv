@@ -1,0 +1,3 @@
+response,model_without,model_with,t_stage_without,t_stage_with,R2_without,R2_with,n
+offset,ordinal stage + cohort + sex,+ six composition scores,-8.1332,1.2533,0.1526,0.6452,427
+n_peaks,ordinal stage + cohort + sex,+ six composition scores,-3.8152,-2.0485,0.0425,0.1215,427

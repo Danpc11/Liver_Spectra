@@ -2,7 +2,7 @@
 Inputs : data/raw/counts/counts_<GSE>.tsv, data/raw/metadata/metadata_cruda_<GSE>.tsv, data/raw/grid/*rejilla_genes.tsv
 Outputs: results/tables/Table_S1_samples.csv, results/intermediate/{counts,expr,expr_adj,meta}.pkl
 """
-import os, re, glob
+import os
 import numpy as np, pandas as pd
 from common import *
 

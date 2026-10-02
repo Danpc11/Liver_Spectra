@@ -1,0 +1,4 @@
+min_genes,n_neighbourhoods,observed_within_one_TAD,chance_mean,chance_sd,P_greater
+3,421,0.6817,0.7043,0.0221,0.8523
+4,139,0.5899,0.6266,0.0387,0.8443
+5,57,0.5965,0.5599,0.0642,0.3613

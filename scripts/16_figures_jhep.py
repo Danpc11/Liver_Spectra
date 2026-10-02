@@ -13,10 +13,7 @@ import os, numpy as np, pandas as pd, matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt, scienceplots, seaborn as sns
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
-from matplotlib import image as mpimg
-from adjustText import adjust_text
 from pycirclize import Circos
-from sklearn.mixture import GaussianMixture
 from common import *
 
 plt.style.use(['science', 'nature', 'no-latex'])
@@ -136,13 +133,14 @@ for gname, (tx, ty) in lbl_pos.items():
     r_ = T6[T6.gene_name == gname]
     if len(r_): ax.annotate(gname, (r_.t_stage.iloc[0], r_.t_stage_comp_adjusted.iloc[0]), xytext=(tx, ty), fontsize=6, style='italic', ha='center', arrowprops=dict(arrowstyle='-', lw=0.35, color='0.4'))
 ve = 100 * (1 - np.var(yg) / np.var(xg))
-ax.text(0.03, 0.04, f'SD of t {np.std(xg):.1f} → {np.std(yg):.1f}\ncomposition explains {ve:.0f}%', transform=ax.transAxes, ha='left', fontsize=6.3)
+ax.text(0.03, 0.04, f'SD of t {np.std(xg):.1f} → {np.std(yg):.1f}\nvariance of t reduced by {ve:.0f}%', transform=ax.transAxes, ha='left', fontsize=6.3)
 ax.set_xlabel('Stage effect per gene (t)'); ax.set_ylabel('Composition-adjusted (t)'); lab(ax, 'B', -0.3, 1.16)
 # C — global variance follows hepatocyte loss
 ax = fig.add_subplot(gs2[0, 2])
 for st in ST: g = C[C.estadio == st]; ax.scatter(g.Hepatocito, g.offset, s=4, color=pal[st], alpha=.85, lw=0, label=st)
 ax.set_xlabel('Hepatocyte score'); ax.set_ylabel('Global transcriptome variance'); ax.set_xlim(-2.3, 3.0); ax.set_ylim(3.09, 3.40)
-ax.text(0.98, 0.04, 'Stage effect\nt = −8.0 → +1.4\nafter adjustment', transform=ax.transAxes, fontsize=6.2, ha='right', va='bottom')
+_S6d = pd.read_csv(tab('Table_S6d_spectral_parameters_vs_stage_with_composition.csv')).set_index('response').loc['offset']
+ax.text(0.98, 0.04, f'Stage effect\nt = {_S6d.t_stage_without:.1f} → {_S6d.t_stage_with:+.1f}\nafter adjustment', transform=ax.transAxes, fontsize=6.2, ha='right', va='bottom')
 ax.legend(loc='upper right', fontsize=6, markerscale=1.5, ncol=1, handletextpad=0.2, labelspacing=0.3, title='Stage', title_fontsize=6); lab(ax, 'C', -0.3, 1.16)
 
 # D — threshold map (ΔAIC)
@@ -152,7 +150,7 @@ im = ax.imshow(H.values, cmap='RdBu_r', vmin=-15, vmax=15, aspect='auto')
 ax.set_yticks(range(4)); ax.set_yticklabels(['Step from ' + c for c in H.index], fontsize=6.5); ax.set_xticks(range(H.shape[1])); ax.set_xticklabels([c.replace(' / myofibroblast', '') for c in H.columns], fontsize=6.5)
 for i in range(H.shape[0]):
     for j in range(H.shape[1]): ax.text(j, i, f'{H.values[i, j]:.0f}', ha='center', va='center', fontsize=6.5, color='white' if abs(H.values[i, j]) > 9 else 'k')
-cb = plt.colorbar(im, ax=ax, fraction=0.02, pad=0.012); cb.set_label('ΔAIC, step − linear\n(>2 favours a threshold)', fontsize=6.3); cb.ax.tick_params(labelsize=6)
+cb = plt.colorbar(im, ax=ax, fraction=0.02, pad=0.012); cb.set_label('ΔAIC = AIC(linear) − AIC(step)\n(>2 favours a step)', fontsize=6.3); cb.ax.tick_params(labelsize=6)
 ax.spines[['left', 'bottom']].set_visible(False); ax.tick_params(length=0); lab(ax, 'D', -0.085, 1.22)
 
 # F — composition tracks disease activity as much as fibrosis
@@ -309,13 +307,17 @@ save(fig, 'Fig4_neighbourhood_coupling')
 # ================= Fig 6 (GWAS)
 Gw = pd.read_csv(tab('Table_S16c_GWAS_catalog_enrichment_by_trait.csv')); order = ['liver fibrosis/cirrhosis', 'MASLD/NAFLD', 'ALT (liver enzyme)', 'height (control)', 'educational attainment (control)']; Gw = Gw.set_index('trait_set').loc[order]
 lbl = ['Fibrosis/\ncirrhosis', 'MASLD', 'ALT', 'Height', 'Education']; cols = [OI['red'], OI['orange'], OI['sky'], '0.6', '0.6']
-fig, axs = plt.subplots(1, 2, figsize=(W2 * 0.85, W2 * 0.36)); plt.subplots_adjust(wspace=0.45)
-ax = axs[0]; ax.bar(range(5), 100 * Gw.frac_in_coupled_pair, color=cols, lw=0, width=0.65); ax.axhline(100 * Gw.bg_coupled.iloc[0], color='k', ls='--', lw=0.7, label='All genes')
-for i, (f, p) in enumerate(zip(Gw.frac_in_coupled_pair, Gw.P_coupled)): ax.text(i, 100 * f + 0.8, f'P={p:.3f}' if p < 0.1 else 'n.s.', ha='center', fontsize=6)
-ax.set_xticks(range(5)); ax.set_xticklabels(lbl, fontsize=6.5); ax.set_xlabel('GWAS trait (grey = non-liver controls)'); ax.set_ylabel('% of locus genes in a\ncis-coupled neighbour pair'); ax.set_ylim(0, 40); ax.legend(loc='upper right'); lab(ax, 'A')
-ax = axs[1]; ax.bar(range(5), Gw.acf_windows, color=cols, lw=0, width=0.65); ax.errorbar(range(5), Gw.acf_random, yerr=2 * Gw.acf_random_sd, fmt='o', color='k', ms=3, capsize=3, lw=0.6, label='Random windows ± 2 s.d.')
-for i, p in enumerate(Gw.P_acf): ax.text(i, Gw.acf_windows.iloc[i] + 0.008, f'P={p:.3f}' if p < 0.1 else 'n.s.', ha='center', fontsize=6)
-ax.set_xticks(range(5)); ax.set_xticklabels(lbl, fontsize=6.5); ax.set_xlabel('GWAS trait'); ax.set_ylabel('Spatial autocorrelation of stage\neffect, ±5 genes around loci'); ax.legend(loc='upper right'); lab(ax, 'B')
+fig, axs = plt.subplots(1, 3, figsize=(W2, W2 * 0.34)); plt.subplots_adjust(wspace=0.55)
+for ax, (v, bg, p, ylab, lim, L) in zip(axs, [('frac_in_DE_neighbourhood', 'bg_nbhd', 'P_nbhd', '% of locus genes in a contiguous\nDE neighbourhood (≥3 genes)', 30, 'A'),
+                                            ('frac_in_coupled_pair', 'bg_coupled', 'P_coupled', '% of locus genes in a\ncoupled neighbour pair', 40, 'B')]):
+    ax.bar(range(5), 100 * Gw[v], color=cols, lw=0, width=0.65); ax.axhline(100 * Gw[bg].iloc[0], color='k', ls='--', lw=0.7, label='All genes')
+    for i, (f, pp) in enumerate(zip(Gw[v], Gw[p])): ax.text(i, 100 * f + 0.6, f'P = {pp:.3f}', ha='center', fontsize=5.8)
+    ax.set_xticks(range(5)); ax.set_xticklabels(lbl, fontsize=6.5); ax.set_ylabel(ylab); ax.set_ylim(0, lim); ax.legend(loc='upper right'); lab(ax, L, -0.3, 1.14)
+ax = axs[2]; ax.bar(range(5), Gw.acf_windows, color=cols, lw=0, width=0.65)
+ax.errorbar(range(5), Gw.acf_random, yerr=2 * Gw.acf_random_sd, fmt='o', color='k', ms=3, capsize=3, lw=0.6, label='Random windows ± 2 SD')
+for i, pp in enumerate(Gw.P_acf): ax.text(i, max(Gw.acf_windows.iloc[i], Gw.acf_random.iloc[i] + 2 * Gw.acf_random_sd.iloc[i]) + 0.008, f'P = {pp:.3f}', ha='center', fontsize=5.8)
+ax.set_xticks(range(5)); ax.set_xticklabels(lbl, fontsize=6.5); ax.set_ylabel('Autocorrelation of stage effect\n±5 genes around locus genes'); ax.set_ylim(0, 0.26); ax.legend(loc='upper right', fontsize=6); lab(ax, 'C', -0.3, 1.14)
+fig.text(0.5, -0.06, 'Grey, non-liver comparison traits. Nominal one-sided P values (binomial in A and B; 200 random-window permutations in C); 15 tests, none significant after Bonferroni correction.', ha='center', fontsize=6)
 save(fig, 'SuppFig_GWAS_loci_neighbourhoods')
 # ======================================================= FIGURE 5 (composite with circos)
 X, keep = pd.read_pickle(inter('expr.pkl')); de, de2 = pd.read_pickle(inter('de.pkl'))
@@ -411,6 +413,13 @@ lab(ax, 'B', -0.20, 1.20)
 # ---- target timing data
 TGt = pd.read_csv(tab('Table_S17h_target_timing.csv'), index_col=0)
 LIN = {'Mesenquima_HSC': ('Stellate', OI['red']), 'Fagocito_mononuclear': ('Macrophage', OI['orange']), 'Endotelio': ('Endothelium', OI['blue']), 'Colangiocito': ('Cholangiocyte', OI['purple'])}
+EVC = {'Clinical liver study': ('Clinical study, liver', OI['red']), 'Clinical other disease': ('Clinical study, other disease', OI['orange']),
+       'Other indications': ('Clinical study, other disease', OI['orange']), 'Indirect pathway evidence': ('Indirect pathway evidence', OI['purple']),
+       'Experimental': ('Experimental', OI['sky']), 'Biomarker candidate': ('Biomarker', OI['green']), 'Biomarker component': ('Biomarker', OI['green']),
+       'No established modulator': ('No established modulator', '0.62'), 'Not curated': ('Not curated', '0.88')}
+EVC_LEGEND = [EVC[k] for k in ['Clinical liver study', 'Clinical other disease', 'Indirect pathway evidence', 'Experimental', 'Biomarker candidate', 'No established modulator', 'Not curated']]
+DEV_TO_EVC = {'clinical, liver': 'Clinical liver study', 'clinical, other fibrosis': 'Clinical other disease', 'clinical, other': 'Clinical other disease', 'approved, other': 'Other indications',
+              'clinical, inflammasome': 'Indirect pathway evidence', 'preclinical': 'Experimental', 'tool compounds': 'Experimental', 'biomarker': 'Biomarker candidate', 'none': 'No established modulator'}
 DEV = {'clinical, liver': ('Clinical, liver', OI['red']), 'clinical, inflammasome': ('Clinical, other', OI['orange']), 'clinical, other fibrosis': ('Clinical, other', OI['orange']),
        'clinical, other': ('Clinical, other', OI['orange']), 'approved, other': ('Clinical, other', OI['orange']), 'preclinical': ('Preclinical', OI['sky']), 'tool compounds': ('Preclinical', OI['sky']),
        'biomarker': ('Biomarker', OI['green']), 'none': ('No modulator', '0.62'), 'not curated': ('Not curated', '0.88')}
@@ -461,19 +470,20 @@ for j, (_, r) in enumerate(sel.iterrows()):
         t_ = r[f't_sc_{rk}']
         if pd.notna(t_) and t_ > 0:
             ax.scatter(j, i, s=min(t_, 5) ** 2 * 5.5, color=plt.cm.Reds(0.3 + 0.7 * min(t_, 5) / 5), edgecolor='0.3', lw=0.25, zorder=3)
-    dv = DEV.get(r.development_stage, ('Not curated', '0.88'))
+    dv = EVC.get(r.evidence_category) if isinstance(r.get('evidence_category'), str) else EVC.get(DEV_TO_EVC.get(r.development_stage, 'Not curated'))
+    dv = dv or EVC['Not curated']
     ax.add_patch(plt.Rectangle((j - 0.42, 5.05), 0.84, 0.5, color=dv[1], lw=0, clip_on=False))
 ax.axvline(len(early) - 0.5, color='k', lw=0.6, ls=':')
 ax.text((len(early) - 1) / 2, -1.25, 'Early, linear targets', ha='center', fontsize=6.5, color=OI['blue'], fontweight='bold')
 ax.text(len(early) + (len(swt) - 1) / 2, -1.25, 'Switch-at-F4 targets', ha='center', fontsize=6.5, fontweight='bold')
-ax.set_xlim(-0.6, len(sel) - 0.4); ax.set_ylim(5.75, -0.6); ax.set_yticks(list(range(5)) + [5.3]); ax.set_yticklabels([LIN[r][0] for r in rows_[:4]] + ['Hepatocyte*', 'Drug status'], fontsize=6.5)
+ax.set_xlim(-0.6, len(sel) - 0.4); ax.set_ylim(5.75, -0.6); ax.set_yticks(list(range(5)) + [5.3]); ax.set_yticklabels([LIN[r][0] for r in rows_[:4]] + ['Hepatocyte*', 'Evidence'], fontsize=6.5)
 ax.axhline(3.5, color='0.8', lw=0.5)
 ax.set_xticks(range(len(sel))); ax.set_xticklabels(sel.gene_name, rotation=60, ha='right', fontsize=6.3, style='italic')
 ax.spines[['left', 'bottom']].set_visible(False); ax.tick_params(length=0); ax.grid(False)
-sz = [Line2D([], [], marker='o', ls='', color=plt.cm.Reds(0.3 + 0.7 * v / 5), markeredgecolor='0.3', markeredgewidth=0.25, ms=np.sqrt(v ** 2 * 5.5), label=f't = {v}') for v in (2, 3, 4)]
-dvh = [Patch(fc=c, label=l) for l, c in dict(v for v in DEV.values()).items()]
-lg = ax.legend(handles=sz, title='Within-lineage\ninduction (t)\nscRNA-seq;\n*snRNA-seq, F0–F4', title_fontsize=6, fontsize=6, loc='upper left', bbox_to_anchor=(1.02, 1.12), labelspacing=0.75, borderaxespad=0)
-ax.add_artist(lg); ax.legend(handles=dvh, title='Drug status', title_fontsize=6, fontsize=6, loc='lower left', bbox_to_anchor=(1.02, -0.40), labelspacing=0.25, borderaxespad=0, handlelength=1.0)
+sz = [Line2D([], [], marker='o', ls='', color=plt.cm.Reds(0.3 + 0.7 * v / 5), markeredgecolor='0.3', markeredgewidth=0.25, ms=np.sqrt(v ** 2 * 5.5), label=f't = {v}') for v in (2, 4)]
+dvh = [Patch(fc=c, label=l) for l, c in dict(v for v in EVC_LEGEND).items()]
+lg = ax.legend(handles=sz, title='Within-lineage induction\n(*snRNA-seq, F0–F4)', title_fontsize=5.6, fontsize=5.6, loc='upper left', bbox_to_anchor=(1.01, 1.18), ncol=2, columnspacing=1.4, handletextpad=0.5, borderaxespad=0)
+ax.add_artist(lg); ax.legend(handles=dvh, title='Pharmacological evidence', title_fontsize=5.8, fontsize=5.6, loc='upper left', bbox_to_anchor=(1.01, 0.80), labelspacing=0.18, borderaxespad=0, handlelength=1.0)
 lab(ax, 'E', -0.085, 1.22)
 # F — receptors of hepatocyte-directed MASH drugs: bulk change and the part left after removing hepatocyte loss
 ax = fig.add_subplot(gs[3, 0]); RF = pd.read_csv(tab('Table_S9d_hepatocyte_drug_targets_reference.csv'), index_col=0)

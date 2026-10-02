@@ -1,41 +1,49 @@
-gene_name,target_class,drug_landscape,development_stage
-LGALS3,galectin-3,belapectin (GR-MD-02): phase 2b NASH cirrhosis negative on fibrosis (NCT02462967); phase 3 NAVIGATE (NCT04365868) reported 2025,"clinical, liver"
-CCN2,CTGF,pamrevlumab (FG-3019): IPF phase 3; liver fibrosis phase 2 paused,"clinical, other fibrosis"
-TREM2,TREM2,agonist antibodies in development (neurodegeneration); scar-associated macrophage marker; no liver trial,preclinical
-MMP2,MMP2,broad MMP inhibitors failed in oncology; no fibrosis programme,tool compounds
-PLAU,uPA,amiloride/UK-371804 inhibit uPA; anti-uPAR antibodies preclinical,tool compounds
-TIMP1,TIMP1,no direct modulator; ELF-score biomarker,biomarker
-THBS2,THBS2,serum biomarker of advanced fibrosis; no modulator,biomarker
-IGFBP7,IGFBP7,antibody preclinical (senescence/cardiometabolic); CKD biomarker,preclinical
-PYCARD,ASC/inflammasome,"NLRP3 inhibitors (MCC950 class, dapansutrile, DFV890) in clinical development incl. MASH","clinical, inflammasome"
-CARD16,caspase-1 axis,"VX-765 (belnacasan) caspase-1 inhibitor, clinical history","clinical, other"
-IL32,IL-32,no modulator; cytokine linked to MASLD,none
-RIPK3,RIPK3,RIPK3/MLKL inhibitors preclinical; RIPK1 inhibitors clinical,preclinical
-TNFRSF10A,TRAIL-R1,agonist antibodies (mapatumumab) oncology,"clinical, other"
-ADGRG1,GPR56,no modulator,none
-ITGA6,integrin a6,antibodies preclinical,preclinical
-PIK3R3,PI3K regulatory,PI3K inhibitors approved (oncology),"approved, other"
-ANGPTL2,ANGPTL2,no modulator; ANGPTL3 antibodies approved (evinacumab),none
-S100A11,S100A11,no modulator,none
-S100A10,S100A10/annexin A2,no modulator,none
-IER3,IER3,not druggable,none
-COL1A1,collagen I,HSP47 siRNA BMS-986263 (NCT06646276),"clinical, liver"
-DCN,decorin,recombinant decorin preclinical,preclinical
-GSN,gelsolin,recombinant plasma gelsolin clinical (sepsis),"clinical, other"
-FABP5,FABP5,FABP4/5 inhibitors preclinical,preclinical
-HLA-DMA,MHC-II,not a target,none
-CD300LF,CD300LF,no modulator,none
-THRB,thyroid hormone receptor-β,resmetirom (THR-β agonist): approved for non-cirrhotic MASH with F2–F3 fibrosis (FDA 2024),"approved, liver"
-NR1H4,FXR,obeticholic acid (FXR agonist): not approved for MASH (FDA 2023); other FXR agonists in development,"clinical, liver"
-PPARA,PPARα,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver"
-PPARD,PPARδ,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver"
-PPARG,PPARγ,lanifibranor (pan-PPAR); pioglitazone used off-label in MASH,"clinical, liver"
-FASN,fatty acid synthase,denifanstat (FASN inhibitor): phase 3 in MASH,"clinical, liver"
-ACACA,acetyl-CoA carboxylase 1,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver"
-ACACB,acetyl-CoA carboxylase 2,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver"
-SCD,stearoyl-CoA desaturase,aramchol (SCD1 partial inhibitor): phase 3 in MASH,"clinical, liver"
-HSD17B13,HSD17B13,siRNA (GSK4532990/ARO-HSD; rapirosiran): phase 2 in MASH,"clinical, liver"
-PNPLA3,PNPLA3,antisense oligonucleotide (AZD2693): phase 2 in PNPLA3 I148M carriers,"clinical, liver"
-DGAT2,DGAT2,antisense (ION224) and small molecule (ervogastat): phase 2 in MASH,"clinical, liver"
-FGFR1,FGFR1c (FGF21 receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver"
-KLB,β-Klotho (FGF21 co-receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver"
+gene_name,target_class,drug_landscape,development_stage,evidence_category,target_or_role_reviewed,evidence_note_reviewed
+LGALS3,galectin-3,belapectin (GR-MD-02): phase 2b NASH cirrhosis negative on fibrosis (NCT02462967); phase 3 NAVIGATE (NCT04365868) reported 2025,"clinical, liver",Clinical liver study,Galectin-3,Belapectin: earlier cirrhosis trial did not improve fibrosis; NAVIGATE phase 2b studied variceal prevention and did not meet full-analysis primary comparisons.
+CCN2,CTGF,pamrevlumab (FG-3019): IPF phase 3; liver fibrosis phase 2 paused,"clinical, other fibrosis",Clinical other disease,CTGF/CCN2,Pamrevlumab: phase 2 pulmonary fibrosis study; phase 3 ZEPHYRUS-1 did not meet its primary endpoint. Liver efficacy is unestablished.
+TREM2,TREM2,agonist antibodies in development (neurodegeneration); scar-associated macrophage marker; no liver trial,preclinical,Other indications,TREM2,Agonist antibodies have been studied in neurodegeneration; direction and benefit of modulation in MASLD require testing.
+MMP2,MMP2,broad MMP inhibitors failed in oncology; no fibrosis programme,tool compounds,Experimental,MMP2,Broad MMP inhibitors have been studied in oncology; this does not establish selective MMP2 efficacy in liver fibrosis.
+PLAU,uPA,amiloride/UK-371804 inhibit uPA; anti-uPAR antibodies preclinical,tool compounds,Experimental,uPA,Experimental uPA inhibitors; agents targeting uPAR act on a different protein.
+TIMP1,TIMP1,no direct modulator; ELF-score biomarker,biomarker,Biomarker component,TIMP1,Component of the ELF biomarker panel; biomarker use does not establish a therapeutic target.
+THBS2,THBS2,serum biomarker of advanced fibrosis; no modulator,biomarker,Biomarker candidate,Thrombospondin-2,Reported serum biomarker of disease severity; no established direct modulator identified.
+IGFBP7,IGFBP7,antibody preclinical (senescence/cardiometabolic); CKD biomarker,preclinical,Experimental,IGFBP7,Experimental target; renal biomarker use does not establish a liver-directed treatment.
+PYCARD,ASC/inflammasome,"NLRP3 inhibitors (MCC950 class, dapansutrile, DFV890) in clinical development incl. MASH","clinical, inflammasome",Indirect pathway evidence,ASC adaptor,"NLRP3 inhibitors target an upstream sensor, not PYCARD directly; pathway development does not establish PYCARD-directed efficacy."
+CARD16,caspase-1 axis,"VX-765 (belnacasan) caspase-1 inhibitor, clinical history","clinical, other",Indirect pathway evidence,Caspase-1 pathway,VX-765 targets caspase-1 rather than CARD16 directly.
+IL32,IL-32,no modulator; cytokine linked to MASLD,none,No established modulator,IL-32,No established direct modulator identified in this review.
+RIPK3,RIPK3,RIPK3/MLKL inhibitors preclinical; RIPK1 inhibitors clinical,preclinical,,,
+TNFRSF10A,TRAIL-R1,agonist antibodies (mapatumumab) oncology,"clinical, other",Clinical other disease,TRAIL-R1,Mapatumumab has been studied in oncology; no antifibrotic efficacy established here.
+ADGRG1,GPR56,no modulator,none,,,
+ITGA6,integrin a6,antibodies preclinical,preclinical,,,
+PIK3R3,PI3K regulatory,PI3K inhibitors approved (oncology),"approved, other",,,
+ANGPTL2,ANGPTL2,no modulator; ANGPTL3 antibodies approved (evinacumab),none,No established modulator,ANGPTL2,No established direct modulator identified. ANGPTL3 antibodies do not target ANGPTL2.
+S100A11,S100A11,no modulator,none,No established modulator,S100A11,No established direct modulator identified in this review.
+S100A10,S100A10/annexin A2,no modulator,none,,,
+IER3,IER3,not druggable,none,No established modulator,IER3,No established direct modulator identified in this review.
+COL1A1,collagen I,HSP47 siRNA BMS-986263 (NCT06646276),"clinical, liver",,,
+DCN,decorin,recombinant decorin preclinical,preclinical,,,
+GSN,gelsolin,recombinant plasma gelsolin clinical (sepsis),"clinical, other",Other indications,Gelsolin,Recombinant plasma gelsolin has been investigated outside liver fibrosis; efficacy for this indication is unestablished.
+FABP5,FABP5,FABP4/5 inhibitors preclinical,preclinical,Experimental,FABP5,Experimental FABP inhibitors; selectivity and efficacy require validation.
+HLA-DMA,MHC-II,not a target,none,,,
+CD300LF,CD300LF,no modulator,none,,,
+THRB,thyroid hormone receptor-β,resmetirom (THR-β agonist): approved for non-cirrhotic MASH with F2–F3 fibrosis (FDA 2024),"approved, liver",,,
+NR1H4,FXR,obeticholic acid (FXR agonist): not approved for MASH (FDA 2023); other FXR agonists in development,"clinical, liver",,,
+PPARA,PPARα,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver",,,
+PPARD,PPARδ,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver",,,
+PPARG,PPARγ,lanifibranor (pan-PPAR); pioglitazone used off-label in MASH,"clinical, liver",,,
+FASN,fatty acid synthase,denifanstat (FASN inhibitor): phase 3 in MASH,"clinical, liver",,,
+ACACA,acetyl-CoA carboxylase 1,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver",,,
+ACACB,acetyl-CoA carboxylase 2,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver",,,
+SCD,stearoyl-CoA desaturase,aramchol (SCD1 partial inhibitor): phase 3 in MASH,"clinical, liver",,,
+HSD17B13,HSD17B13,siRNA (GSK4532990/ARO-HSD; rapirosiran): phase 2 in MASH,"clinical, liver",,,
+PNPLA3,PNPLA3,antisense oligonucleotide (AZD2693): phase 2 in PNPLA3 I148M carriers,"clinical, liver",,,
+DGAT2,DGAT2,antisense (ION224) and small molecule (ervogastat): phase 2 in MASH,"clinical, liver",,,
+FGFR1,FGFR1c (FGF21 receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver",,,
+KLB,β-Klotho (FGF21 co-receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver",,,
+EPDR1,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+ANKRD29,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+CD300LG,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+RPS27L,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+MYL12B,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+CD109,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+CCN1,,,,Not curated,Not assessed,Pharmacological evidence not curated.
+ISCU,,,,Not curated,Not assessed,Pharmacological evidence not curated.

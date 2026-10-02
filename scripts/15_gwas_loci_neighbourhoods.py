@@ -2,7 +2,7 @@
 locus); replace/extend with the GWAS Catalog export (data/external/gwas_catalog_MASLD.tsv) when available.
 Tests: (i) stage effect of each GWAS gene and its ±2 neighbours; (ii) enrichment of GWAS genes in coupled neighbour pairs;
 (iii) spatial autocorrelation of the stage effect in ±5-gene windows around loci vs random windows; (iv) shared eQTLs.
-Output: Table_S16_GWAS_loci_neighbourhoods.csv
+Outputs: Table_S16 (curated loci), S16b (curated-locus enrichment), S16c (GWAS Catalog enrichment by trait), S16d (per-locus table)
 """
 import numpy as np, pandas as pd
 from scipy import stats
@@ -32,31 +32,52 @@ print(f'lag-1 ACF around GWAS loci {obs:.3f} vs random windows {nl.mean():.3f}±
 pd.DataFrame({'acf_gwas_windows': [obs], 'null_mean': [nl.mean()], 'null_sd': [nl.std()], 'p': [np.mean(nl >= obs)], 'frac_gwas_in_coupled_pair': [a / n], 'background': [base]}).to_csv(tab('Table_S16b_GWAS_enrichment_tests.csv'), index=False)
 
 # ---- GWAS Catalog version (requires data/external/gwas-catalog-download-associations-v1.0-full.tsv; genome-wide significant P<5e-8)
-import os, re
 cat = os.path.join(EXT, 'gwas-catalog-download-associations-v1.0-full.tsv')
-if os.path.exists(cat):
-    cols = ['DISEASE/TRAIT', 'SNP_GENE_IDS', 'UPSTREAM_GENE_ID', 'DOWNSTREAM_GENE_ID', 'SNPS', 'P-VALUE', 'PUBMEDID']
-    Gc = pd.read_csv(cat, sep='\t', usecols=cols, low_memory=False); Gc['P'] = pd.to_numeric(Gc['P-VALUE'], errors='coerce'); Gc = Gc[Gc.P < 5e-8]; t = Gc['DISEASE/TRAIT'].str.lower()
-    traits = {'MASLD/NAFLD': t.str.contains(r'non-?alcoholic fatty liver|nafld|steatotic liver|fatty liver|hepatic steatosis|liver fat', regex=True),
-              'liver fibrosis/cirrhosis': t.str.contains(r'liver fibrosis|cirrhosis|liver stiffness|nash|steatohepatitis', regex=True) & ~t.str.contains('primary biliary|sclerosing', regex=True),
-              'ALT (liver enzyme)': t.str.contains(r'alanine aminotransferase', regex=True), 'height (control)': t.str.fullmatch(r'height|body height|standing height'), 'educational attainment (control)': t.str.contains('educational attainment', regex=True)}
-    tv = order.t.fillna(0).values
-    def locus_genes(df):
-        ids = set()
-        for g, u, d in zip(df.SNP_GENE_IDS.fillna('').astype(str), df.UPSTREAM_GENE_ID.fillna('').astype(str), df.DOWNSTREAM_GENE_ID.fillna('').astype(str)):
-            if g.strip(): ids |= set(x.strip() for x in g.split(','))
-            else: ids |= {v.strip() for v in (u, d) if v.strip()}
-        return {i for i in ids if i in set(order.gene_id)}
-    gid2pos = dict(zip(order.gene_id, order.pos)); cgi = set(P[P.coupled].g1) | set(P[P.coupled].g2); allgi = set(P.g1) | set(P.g2); basei = len(cgi) / len(allgi)
-    def acf_w(centers, half=5):
-        num = den = 0.0
-        for p in centers:
-            lo, hi = max(0, p - half), min(len(tv), p + half + 1); v = tv[lo:hi]; v = v - v.mean(); num += np.sum(v[:-1] * v[1:]); den += np.sum(v * v) * (len(v) - 1) / len(v)
-        return num / den
-    rows = []
-    for k, m in traits.items():
-        genes = locus_genes(Gc[m]); gl = [g for g in genes if g in allgi]; a = sum(g in cgi for g in gl); cen = np.array([gid2pos[g] for g in genes])
-        if len(cen) > 400: cen = rng.choice(cen, 400, replace=False)
-        o = acf_w(cen); nl2 = np.array([acf_w(rng.integers(5, len(order) - 5, len(cen))) for _ in range(200)])
-        rows.append({'trait_set': k, 'n_assoc': int(m.sum()), 'locus_genes_on_grid': len(genes), 'frac_in_coupled_pair': a / max(1, len(gl)), 'background': basei, 'P_coupled': stats.binomtest(a, len(gl), basei, alternative='greater').pvalue if gl else np.nan, 'acf_windows': o, 'acf_random': nl2.mean(), 'acf_random_sd': nl2.std(), 'P_acf': np.mean(nl2 >= o)})
-    pd.DataFrame(rows).round(4).to_csv(tab('Table_S16c_GWAS_catalog_enrichment_by_trait.csv'), index=False); print(pd.DataFrame(rows).round(3).to_string(index=False))
+if not os.path.exists(cat):
+    raise FileNotFoundError(f'{cat} is required for Supplementary Table S16c-d and Supplementary Fig. S7; '
+                            'download "All associations v1.0" from https://www.ebi.ac.uk/gwas/docs/file-downloads')
+cols = ['DISEASE/TRAIT', 'CHR_ID', 'CHR_POS', 'MAPPED_GENE', 'SNP_GENE_IDS', 'UPSTREAM_GENE_ID', 'DOWNSTREAM_GENE_ID', 'SNPS', 'P-VALUE', 'PUBMEDID', 'INTERGENIC']
+Gc = pd.read_csv(cat, sep='\t', usecols=cols, low_memory=False, encoding='utf-8'); Gc['P'] = pd.to_numeric(Gc['P-VALUE'], errors='coerce'); Gc = Gc[Gc.P < 5e-8]
+t = Gc['DISEASE/TRAIT'].str.lower()
+traits = {'MASLD/NAFLD': t.str.contains(r'non-?alcoholic fatty liver|nafld|steatotic liver|metabolic dysfunction.associated steatotic|fatty liver|hepatic steatosis|liver fat', regex=True),
+          'liver fibrosis/cirrhosis': t.str.contains(r'liver fibrosis|cirrhosis|fibrosis.*liver|liver stiffness|nash|steatohepatitis', regex=True) & ~t.str.contains('primary biliary|sclerosing', regex=True),
+          'ALT (liver enzyme)': t.str.contains(r'alanine aminotransferase', regex=True),
+          'height (control)': t.str.fullmatch(r'height|body height|standing height'),
+          'educational attainment (control)': t.str.contains(r'educational attainment', regex=True)}
+Tg = pd.read_csv(tab('Table_S6c_stage_effect_per_gene_with_without_composition.csv')).set_index('gene_id')
+Pp = pd.read_csv(tab('Table_S5f_adjacent_pairs_distance_orientation_TAD.csv')); Vn = pd.read_csv(tab('Table_S5c_contiguous_DE_neighbourhoods.csv'))
+od = keep.sort_values(['chr', 'grid_index']).reset_index(drop=True); od['t'] = Tg.t_stage.reindex(od.gene_id).fillna(0).values; od['pos'] = np.arange(len(od))
+gid2pos = dict(zip(od.gene_id, od.pos)); name2id = dict(zip(od.gene_name.astype(str), od.gene_id)); tv = od.t.values
+def locus_genes(df):
+    ids = set()
+    for g, u, d in zip(df.SNP_GENE_IDS.fillna('').astype(str), df.UPSTREAM_GENE_ID.fillna('').astype(str), df.DOWNSTREAM_GENE_ID.fillna('').astype(str)):
+        if g.strip(): ids |= set(x.strip() for x in g.split(','))
+        else:
+            for v in (u, d):
+                if v.strip(): ids.add(v.strip())
+    return {i for i in ids if i in gid2pos}
+Pp['coupled'] = (np.sign(Pp.t1) == np.sign(Pp.t2)) & (Pp.t1.abs() > 3) & (Pp.t2.abs() > 3)
+cg = set(Pp[Pp.coupled].g1) | set(Pp[Pp.coupled].g2); allg = set(Pp.g1) | set(Pp.g2); base = len(cg) / len(allg)
+run_genes = set(name2id[g] for s_ in Vn.genes for g in str(s_).split(',') if g in name2id); base_run = len(run_genes) / len(od)
+def acf_win(centers, half=5):
+    num = den = 0.0
+    for p in centers:
+        lo, hi = max(0, p - half), min(len(tv), p + half + 1); v = tv[lo:hi]; v = v - v.mean(); num += np.sum(v[:-1] * v[1:]); den += np.sum(v * v) * (len(v) - 1) / len(v)
+    return num / den
+rng = np.random.default_rng(0); rows = []; detail = {}
+for k, m in traits.items():
+    df = Gc[m]; genes = locus_genes(df); detail[k] = genes; gl = [g for g in genes if g in allg]; a = sum(g in cg for g in gl); r = sum(g in run_genes for g in genes)
+    cen = np.array(sorted(gid2pos[g] for g in genes))   # all loci, sorted: deterministic (no subsampling)
+    obs = acf_win(cen); nl = np.array([acf_win(rng.integers(5, len(od) - 5, len(cen))) for _ in range(200)])
+    nbt = np.concatenate([np.abs(tv[[p - 1, p + 1]]) for p in cen if 0 < p < len(tv) - 1])
+    rows.append({'trait_set': k, 'n_assoc': len(df), 'locus_genes_on_grid': len(genes), 'frac_in_coupled_pair': a / max(1, len(gl)), 'bg_coupled': base,
+                 'P_coupled': stats.binomtest(a, len(gl), base, alternative='greater').pvalue,
+                 'frac_in_DE_neighbourhood': r / len(genes), 'bg_nbhd': base_run, 'P_nbhd': stats.binomtest(r, len(genes), base_run, alternative='greater').pvalue,
+                 'acf_windows': obs, 'acf_random': nl.mean(), 'acf_random_sd': nl.std(), 'P_acf': np.mean(nl >= obs), 'mean_|t|_neighbours': nbt.mean(), 'mean_|t|_genome': np.abs(tv).mean()})
+R16 = pd.DataFrame(rows); R16.round(4).to_csv(tab('Table_S16c_GWAS_catalog_enrichment_by_trait.csv'), index=False); print(R16.round(3).to_string(index=False))
+mg = detail['MASLD/NAFLD'] | detail['liver fibrosis/cirrhosis']; oi = od.set_index('gene_id'); rows = []
+for g in mg:
+    p = int(oi.loc[g, 'pos']); c = oi.loc[g, 'chr']; w = od[(od.pos >= p - 2) & (od.pos <= p + 2) & (od.chr == c)]; nb = w[w.gene_id != g]
+    rows.append({'gene_id': g, 'gene': oi.loc[g, 'gene_name'], 'chr': c, 't_stage': oi.loc[g, 't'], 'neighbours': ','.join(nb.gene_name.astype(str)), 'neighbour_t': ','.join(f'{x:.1f}' for x in nb.t),
+                 'in_coupled_pair': g in cg, 'in_DE_neighbourhood': g in run_genes, 'trait': 'MASLD' if g in detail['MASLD/NAFLD'] else 'fibrosis/cirrhosis'})
+pd.DataFrame(rows).sort_values('t_stage').round(3).to_csv(tab('Table_S16d_GWAS_catalog_MASLD_fibrosis_loci_neighbourhoods.csv'), index=False)

@@ -89,7 +89,7 @@ plt.style.use(['science', 'nature', 'no-latex'])
 plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Liberation Sans', 'Arial', 'Helvetica'], 'font.size': 7, 'axes.labelsize': 7, 'xtick.labelsize': 6.5, 'ytick.labelsize': 6.5, 'legend.fontsize': 6,
                      'xtick.top': False, 'ytick.right': False, 'xtick.minor.visible': False, 'ytick.minor.visible': False, 'axes.spines.top': False, 'axes.spines.right': False, 'legend.frameon': False, 'pdf.fonttype': 42})
 OI = {'blue': '#0072B2', 'orange': '#E69F00', 'red': '#D55E00', 'grey': '#7F7F7F', 'green': '#009E73'}
-def lab(ax, t, dx=-0.22, dy=1.16): ax.text(dx, dy, t, transform=ax.transAxes, fontsize=9, fontweight='bold', va='top')
+def lab(ax, t, dx=-0.22, dy=1.16): ax.text(dx, dy, t.upper(), transform=ax.transAxes, fontsize=9, fontweight='bold', va='top')
 Hacf = pd.read_csv(tab('Table_S5a_spatial_autocorrelation_DE.csv'))
 fig, axs = plt.subplots(2, 2, figsize=(183 / 25.4 * 0.8, 183 / 25.4 * 0.7)); axs = axs.ravel(); plt.subplots_adjust(hspace=0.65, wspace=0.45)
 ax = axs[0]; x = np.log10(S.mean_power_CTL); y = np.log10(S.mean_power_UTP)

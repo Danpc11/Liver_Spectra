@@ -64,7 +64,7 @@ import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt, scien
 plt.style.use(['science', 'nature', 'no-latex'])
 plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Liberation Sans', 'Arial'], 'font.size': 7, 'xtick.labelsize': 6, 'ytick.labelsize': 6, 'legend.fontsize': 6, 'xtick.top': False, 'ytick.right': False,
                      'xtick.minor.visible': False, 'ytick.minor.visible': False, 'axes.spines.top': False, 'axes.spines.right': False, 'legend.frameon': False, 'pdf.fonttype': 42})
-def lab(ax, t, dx=-0.22, dy=1.14): ax.text(dx, dy, t, transform=ax.transAxes, fontsize=9, fontweight='bold', va='top')
+def lab(ax, t, dx=-0.22, dy=1.14): ax.text(dx, dy, t.upper(), transform=ax.transAxes, fontsize=9, fontweight='bold', va='top')
 pretty = {t: t.replace('_', ' ').replace('brain cerebellar hemisphere', 'brain (cerebellum)').replace('adipose visceral omentum', 'adipose (visceral)').replace('adipose subcutaneous', 'adipose (subcut.)').replace('colon transverse', 'colon').replace('kidney cortex', 'kidney').replace('muscle skeletal', 'muscle').replace('artery aorta', 'aorta').replace('whole blood', 'blood') for t in tissues}
 fig = plt.figure(figsize=(183 / 25.4, 183 / 25.4 * 0.62)); gs_ = fig.add_gridspec(2, 3, hspace=0.75, wspace=0.6, width_ratios=[1, 1, 1.25])
 ax = fig.add_subplot(gs_[0, 0]); s1 = S[S.gene_set == 'own'].sort_values('universal_peaks_tissue')

@@ -84,6 +84,15 @@ SNa = pd.read_csv(tab('Table_S18f_snRNA_neighbour_coupling.csv')).set_index('pop
 SNs = pd.read_csv(tab('Table_S18g_snRNA_F4_switch_by_population.csv')); r_ = SNs[(SNs.population == 'Hepatocyte (+end stage)') & (SNs.score == 'switch_genes')].iloc[0]
 chk('snRNA hepatocyte switch-gene step t', 5.8, r_.t_step_F4, tol=0.1)  # snRNA
 
+S6d = pd.read_csv(tab('Table_S6d_spectral_parameters_vs_stage_with_composition.csv')).set_index('response').loc['offset']
+chk('offset stage t without composition', -8.1, S6d.t_stage_without); chk('offset stage t with composition', 1.3, S6d.t_stage_with, tol=0.1)
+chk('offset R2 without composition', 0.15, S6d.R2_without, tol=0.1); chk('offset R2 with composition', 0.65, S6d.R2_with, tol=0.05)
+S5k = pd.read_csv(tab('Table_S5k_neighbourhoods_within_one_TAD.csv')).set_index('min_genes'); chk('neighbourhoods within one TAD (>=3)', 0.68, S5k.loc[3, 'observed_within_one_TAD'], tol=0.05)
+chk('eQTL CI upper', 2.78, pd.read_csv(tab('Table_S13e_shared_GTEx_eQTL_coupled_vs_uncoupled.csv')).iloc[1].CI_high, tol=0.005)
+chk('THBS2 adjusted t', 7.45, pd.read_csv(tab('Table_S9a_candidate_targets_lineage_intrinsic.csv')).set_index('gene_name').loc['THBS2', 't_bulk_comp_adjusted'], tol=0.01)
+chk('HSC dAIC at F1', 12.3, B7.loc['HSC', 'dAIC_step_at_F1']); chk('cholangiocyte dAIC at F1', 16.7, B7.loc['Colangiocito', 'dAIC_step_at_F1'])
+G16 = pd.read_csv(tab('Table_S16c_GWAS_catalog_enrichment_by_trait.csv')).set_index('trait_set'); chk('height pair P', 0.040, G16.loc['height (control)', 'P_coupled'], tol=0.1)
+
 R = pd.DataFrame(checks); R.to_csv(tab('audit_number_checks.csv'), index=False)
 pd.set_option('display.width', 200); print(R.to_string(index=False))
 failed = int((~R.ok).sum()); print(f'\n{len(R) - failed} of {len(R)} checks passed.')

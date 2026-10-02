@@ -3,8 +3,6 @@ orientation and liver TAD (hg19 / GRCh37); threshold-vs-trend and within-stage b
 Outputs: Table_S6_*, Table_S7_*, Table_S5d/e_*
 """
 import os, re, numpy as np, pandas as pd, statsmodels.api as sm, pyannotables as pa
-from scipy import stats
-from scipy.stats import fisher_exact
 from sklearn.mixture import GaussianMixture
 from common import *
 
@@ -25,9 +23,12 @@ t0, _ = ols_t(A[s].values.T, D0); t1, _ = ols_t(A[s].values.T, D1)
 T = pd.DataFrame({'gene_id': A.index, 'gene_name': names.values, 't_stage': t0, 't_stage_comp_adjusted': t1}); T.to_csv(tab('Table_S6c_stage_effect_per_gene_with_without_composition.csv'), index=False)
 print('variance of t explained by composition: %.1f%%' % (100 * (1 - np.var(t1) / np.var(t0))))
 # offset ~ stage with/without composition
+_rows6d = []
 for var in ['offset', 'n_peaks']:
     m0 = sm.OLS(C.loc[s, var].values, D0.values).fit(); m1 = sm.OLS(C.loc[s, var].values, D1.values).fit(); j = list(D0.columns).index('orden')
     print(f'{var}: stage t {m0.tvalues[j]:.2f} -> {m1.tvalues[j]:.2f}; R2 {m0.rsquared:.3f} -> {m1.rsquared:.3f}')
+    _rows6d.append({'response': var, 'model_without': 'ordinal stage + cohort + sex', 'model_with': '+ six composition scores', 't_stage_without': m0.tvalues[j], 't_stage_with': m1.tvalues[j], 'R2_without': m0.rsquared, 'R2_with': m1.rsquared, 'n': len(s)})
+pd.DataFrame(_rows6d).round(4).to_csv(tab('Table_S6d_spectral_parameters_vs_stage_with_composition.csv'), index=False)
 # ACF of t with/without composition
 Kt = keep.set_index('gene_id').reindex(A.index); order = Kt.sort_values(['chr', 'grid_index']); Ts = T.set_index('gene_id')
 rng = np.random.default_rng(0); lags = (1, 2, 3, 5, 10)
@@ -90,3 +91,29 @@ for var in ['HSC', 'Colangiocito', 'Hepatocito']:
         rows.append({'variable': var, 'estadio': st, 'n': len(y), 'dBIC_1_minus_2': g1.bic(y) - g2.bic(y), 'means_2comp': np.round(np.sort(g2.means_.ravel()), 2).tolist(), 'min_weight': round(g2.weights_.min(), 2)})
 pd.DataFrame(rows).to_csv(tab('Table_S7b_within_stage_bimodality.csv'), index=False)
 print('done')
+
+# ---- containment of contiguous DE neighbourhoods within a single liver TAD, against random windows of the same size
+#      on the same chromosome (Supplementary Table S5k; Supplementary Fig. S4D)
+Vk = pd.read_csv(tab('Table_S5c_contiguous_DE_neighbourhoods.csv'))
+Kt2 = pd.read_pickle(inter('K_tad.pkl')).sort_values(['chr', 'grid_index']); Kt2['gene_name'] = Kt2.gene_name.astype(str)
+tad_of = dict(zip(Kt2.gene_name, Kt2.tad)); byc_tad = {c: g.tad.values for c, g in Kt2.groupby('chr')}
+def within_one(tads): tads = [t for t in tads]; return all(pd.notna(t) for t in tads) and len(set(tads)) == 1
+obs_rows = []
+for _, v in Vk.iterrows():
+    gs_ = str(v.genes).split(','); tt = [tad_of.get(g, np.nan) for g in gs_]
+    if all(pd.isna(t) for t in tt): continue
+    obs_rows.append({'chr': str(v.chr), 'n_genes': len(gs_), 'within': within_one(tt)})
+OB = pd.DataFrame(obs_rows); rng_k = np.random.default_rng(0); rows_k = []
+for nmin in (3, 4, 5):
+    sub = OB[OB.n_genes >= nmin]; perm = []
+    for _ in range(500):
+        hits = 0; tot = 0
+        for _, r in sub.iterrows():
+            arr = byc_tad.get(r.chr)
+            if arr is None or len(arr) <= r.n_genes: continue
+            st_ = rng_k.integers(0, len(arr) - r.n_genes); w_ = arr[st_:st_ + r.n_genes]; tot += 1; hits += within_one(list(w_))
+        perm.append(hits / max(tot, 1))
+    perm = np.array(perm)
+    rows_k.append({'min_genes': nmin, 'n_neighbourhoods': len(sub), 'observed_within_one_TAD': sub.within.mean(), 'chance_mean': perm.mean(), 'chance_sd': perm.std(),
+                   'P_greater': (np.sum(perm >= sub.within.mean()) + 1) / (len(perm) + 1)})
+pd.DataFrame(rows_k).round(4).to_csv(tab('Table_S5k_neighbourhoods_within_one_TAD.csv'), index=False); print(pd.DataFrame(rows_k).round(3).to_string(index=False))

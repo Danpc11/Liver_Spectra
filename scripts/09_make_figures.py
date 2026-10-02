@@ -1,5 +1,5 @@
 """09 — Figures 1–5 (Nature style). Run after scripts 01–08."""
-import pandas as pd, numpy as np, glob, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt, scienceplots, seaborn as sns
+import pandas as pd, numpy as np, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt, scienceplots, seaborn as sns
 from matplotlib.lines import Line2D
 from adjustText import adjust_text
 plt.style.use(['science','nature','no-latex'])
@@ -15,7 +15,7 @@ OI={'blue':'#0072B2','orange':'#E69F00','green':'#009E73','red':'#D55E00','purpl
 Wz,Wl=pd.read_pickle(inter('W_adj.pkl')); M=pd.read_pickle(inter('meta.pkl'))
 grid=load_grid(); N=chrom_lengths(grid)
 def save(fig,name): fig.savefig(f'{FO}/{name}.pdf',bbox_inches='tight'); fig.savefig(f'{FO}/{name}.png',dpi=400,bbox_inches='tight'); plt.close(fig)
-def lab(ax,s,dx=-0.22,dy=1.16): ax.text(dx,dy,s,transform=ax.transAxes,fontsize=9,fontweight='bold',va='top')
+def lab(ax,s,dx=-0.22,dy=1.16): ax.text(dx,dy,s.upper(),transform=ax.transAxes,fontsize=9,fontweight='bold',va='top')
 bandlab=lambda cs:[str(c).replace('(','').replace(']','').replace(', ','–').replace('.0','') for c in cs]
 def box(ax,data,labels,pal):
     bp=ax.boxplot(data,tick_labels=labels,patch_artist=True,showfliers=False,widths=0.62,medianprops=dict(color='white',lw=1.2),whiskerprops=dict(lw=0.6),capprops=dict(lw=0.6),boxprops=dict(lw=0.5))
@@ -80,8 +80,8 @@ ax.set_xticks(xx); ax.set_xticklabels(['overlap','<1','1–10','10–50','50–1
 ax=axs[2]; q2=Pp[Pp.lag==1].dropna(subset=['stat1','stat2']).copy(); bins=[0,2e4,5e4,1e5,2e5,5e5,1e6,5e6]; q2['db']=pd.cut(q2.dist_bp,bins)
 for same,col,nm in [(True,OI['red'],'Same TAD'),(False,OI['blue'],'Different TADs')]:
     g=q2[q2.mismo_tad==same].groupby('db',observed=True); r=g.apply(lambda h:np.corrcoef(h.stat1,h.stat2)[0,1] if len(h)>=60 else np.nan); xs=np.array([b.right/1e3 for b in r.index]); ax.plot(xs,r.values,'o-',color=col,ms=3,lw=0.9,label=nm)
-ax.set_xscale('log'); ax.set_xlabel('Distance between neighbours (kb)'); ax.set_ylabel('Concordance of stage effect'); ax.axhline(0,color='0.6',lw=0.5); ax.set_ylim(-0.2,0.45); ax.legend(title='Liver TADs (Leung et al. 2015)',loc='upper right',bbox_to_anchor=(1.0,0.9)); ax.text(0.98,0.98,'Δ at equal distance: P ≈ 0.5',transform=ax.transAxes,ha='right',va='top',fontsize=6); lab(ax,'c')
-ax=axs[3]; obs=[V[V.n_genes>=n].mismo_TAD.astype(float).mean()*100 for n in (3,4,5)]; ax.axhspan(77.4-7.8,77.4+7.8,color='0.9',lw=0,zorder=0); ax.axhline(77.4,color='k',ls='--',lw=0.7,label='Chance (77 ± 4%)',zorder=1); ax.bar([0,1,2],obs,color=OI['grey'],width=.6,lw=0,zorder=2)
+ax.set_xscale('log'); ax.set_xlabel('Distance between neighbours (kb)'); ax.set_ylabel('Concordance of stage effect'); ax.axhline(0,color='0.6',lw=0.5); ax.set_ylim(-0.2,0.45); ax.legend(title='Liver TADs (Leung et al. 2015)',loc='upper right',bbox_to_anchor=(1.0,0.9)); _ptad=pd.read_csv(tab('Table_S5i_TAD_test_stratified.csv')).p.iloc[0]; ax.text(0.98,0.98,f'Δ at equal distance: P = {_ptad:.2f}',transform=ax.transAxes,ha='right',va='top',fontsize=6); lab(ax,'c')
+ax=axs[3]; _K=pd.read_csv(tab('Table_S5k_neighbourhoods_within_one_TAD.csv')); obs=list(100*_K.observed_within_one_TAD); _c=100*_K.chance_mean.mean(); _sd=100*_K.chance_sd.mean(); ax.axhspan(_c-2*_sd,_c+2*_sd,color='0.9',lw=0,zorder=0); ax.axhline(_c,color='k',ls='--',lw=0.7,label=f'Chance ({_c:.0f} ± {2*_sd:.0f}%, 2 SD)',zorder=1); ax.bar([0,1,2],obs,color=OI['grey'],width=.6,lw=0,zorder=2)
 for i,o in enumerate(obs): ax.text(i,o-3,f'{o:.0f}%',ha='center',va='top',fontsize=6,color='white',fontweight='bold')
 ax.set_xticks([0,1,2]); ax.set_xticklabels(['≥3','≥4','≥5']); ax.set_xlabel('Genes per DE neighbourhood'); ax.set_ylabel('% fully within one TAD'); ax.set_ylim(50,100); ax.legend(loc='upper right'); lab(ax,'d')
 save(fig,'Fig3_spatial_coupling_TADs')
@@ -95,7 +95,7 @@ for ct,(nm,col) in ct_cols.items(): g=C.groupby('estadio')[ct].agg(['mean','sem'
 ax.set_xticks(range(6)); ax.set_xticklabels(ST); ax.axhline(0,color='0.7',lw=0.5); ax.set_ylabel('Composition score (marker z)'); ax.set_xlabel('Fibrosis stage'); ax.set_ylim(-0.9,1.6); ax.legend(ncol=2,handlelength=1.2,loc='upper left',columnspacing=0.8,fontsize=5.5); lab(ax,'a')
 ax=axs[1]
 for st in ST: g=C[C.estadio==st]; ax.scatter(g.Hepatocito,g.offset,s=6,color=stage_pal[st],label=st,alpha=.85,lw=0)
-ax.set_xlabel('Hepatocyte score'); ax.set_ylabel('Aperiodic offset (spectral variance)'); ax.set_ylim(3.09,3.41); ax.text(0.03,0.98,'Stage effect on offset:\nt = −8.0 → +1.4 after\nadjusting for composition',transform=ax.transAxes,fontsize=6,va='top'); ax.set_xlim(-2.3,2.1); ax.legend(loc='lower right',ncol=1,markerscale=1.5,title='Stage',title_fontsize=6); lab(ax,'b')
+ax.set_xlabel('Hepatocyte score'); ax.set_ylabel('Aperiodic offset (spectral variance)'); ax.set_ylim(3.09,3.41); _o=pd.read_csv(tab('Table_S6d_spectral_parameters_vs_stage_with_composition.csv')).set_index('response').loc['offset']; ax.text(0.03,0.98,f'Stage effect on offset:\nt = {_o.t_stage_without:.1f} → {_o.t_stage_with:+.1f} after\nadjusting for composition',transform=ax.transAxes,fontsize=6,va='top'); ax.set_xlim(-2.3,2.1); ax.legend(loc='lower right',ncol=1,markerscale=1.5,title='Stage',title_fontsize=6); lab(ax,'b')
 ax=axs[2]; H=B.set_index('variable')[[c for c in B.columns if c.startswith('ΔAIC')]]; H.columns=['≥F1','≥F2','≥F3','≥F4']; H=H.loc[['Hepatocito','HSC','Colangiocito','Macrofago','Linfocito','Endotelio','offset','n_picos']]; H.index=['Hepatocyte','Stellate','Cholangiocyte','Macrophage','Lymphocyte','Endothelium','Spectral offset','Peak count']
 H=H.T; im=ax.imshow(H.values,cmap='RdBu_r',vmin=-15,vmax=15,aspect='auto'); ax.set_yticks(range(4)); ax.set_yticklabels(H.index); ax.set_xticks(range(H.shape[1])); ax.set_xticklabels(H.columns,rotation=30,ha='right'); ax.set_ylabel('Jump from stage')
 for i in range(H.shape[0]):

@@ -4,7 +4,6 @@ comparing pairs coupled in the fibrosis stage effect with uncoupled pairs at mat
 Outputs: Table_S13a–c
 """
 import os, numpy as np, pandas as pd
-from scipy import stats
 from statsmodels.stats.contingency_tables import StratifiedTable
 import statsmodels.api as sm
 from common import *

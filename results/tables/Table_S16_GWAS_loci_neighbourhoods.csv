@@ -1,4 +1,4 @@
-gene,snp,chr,t_stage,t_comp_adj,neighbours,neighbour_t,n_neighbours_concordant_|t|>2,in_DE_neighbourhood,lineage_intrinsic_target
+gene,snp,chr,t_stage,t_comp_adj,neighbours,neighbour_t,n_neighbours_concordant,in_DE_neighbourhood,lineage_intrinsic_target
 ADH1B,rs1229984,4,-8.605,-0.426,"ADH6,ADH1A,ADH1C,ADH7","-10.1,-6.5,-5.7,-6.8",4,True,False
 COBLL1,rs12052337,2,-8.071,-0.307,"FIGN,GRB14,SLC38A11,CSRNP3","-1.6,-5.2,-5.4,-4.7",3,True,False
 MTARC1,rs2642438,1,-7.998,0.15,"C1orf115,MTARC2,HLX,DUSP10","-7.1,-10.9,-3.4,-5.9",4,True,False

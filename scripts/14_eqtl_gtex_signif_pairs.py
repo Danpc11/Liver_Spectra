@@ -5,7 +5,6 @@ in the fibrosis stage effect and uncoupled pairs, stratified by intergenic dista
 models. Outputs: Table_S13d–g
 """
 import os, numpy as np, pandas as pd, statsmodels.api as sm
-from scipy import stats
 from statsmodels.stats.contingency_tables import StratifiedTable
 from common import *
 

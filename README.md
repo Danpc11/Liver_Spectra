@@ -1,8 +1,20 @@
+<<<<<<< HEAD
 # Liver Spectra
-### Positional spectra and cis-coupled gene neighbourhoods across the MASLD fibrosis spectrum
+### Cellular composition and mechanotransduction signatures across fibrosis stages in MASLD
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![DOI](https://img.shields.io/badge/DOI-pending-lightgrey)](#citation)
+=======
+# Liver_Spectra
+
+### Cellular composition and mechanotransduction signatures across fibrosis stages in MASLD
+
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Audit](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml/badge.svg)](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml)
+[![Version](https://img.shields.io/badge/version-1.0.0-1f6feb)](CHANGELOG.md)
+[![DOI](https://img.shields.io/badge/DOI-pending-lightgrey)](#citation)
+[![Licence](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 
 ---
 
@@ -22,6 +34,11 @@ The result the repository exists to support is that **fibrosis progression has t
 More than half of F3 biopsies already carry an F4-like cell composition without the mechanical programme: composition
 does not define cirrhosis, the switch does.
 
+<<<<<<< HEAD
+=======
+![Two layers of MASLD fibrosis: linear cell replacement and a composition-independent switch at F4](assets/overview.png)
+
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 ---
 
 ## Key findings
@@ -41,6 +58,10 @@ does not define cirrhosis, the switch does.
    *LGALS3*) and 17 belong to the F4 switch (*CCN2*/CTGF, *CCN1*, *TIMP1*, *VWF*); hepatocyte drug receptors are lost
    mainly with hepatocytes, with THR-β also falling per cell (Fig. 6).
 
+<<<<<<< HEAD
+=======
+Every number above is re-checked against the regenerated tables by `scripts/audit_numbers.py` (see [Audit](#audit)).
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 
 ---
 
@@ -58,7 +79,11 @@ does not define cirrhosis, the switch does.
 | [GWAS Catalog](https://www.ebi.ac.uk/gwas/) | genome-wide significant associations | MASLD and cirrhosis loci, non-liver controls | Sollis et al., *Nucleic Acids Res* 2023 · [10.1093/nar/gkac1010](https://doi.org/10.1093/nar/gkac1010) |
 | [Liver TADs](https://github.com/emcarthur/TAD-stability-heritability) | liver topologically associating domains (hg19) | TAD test | McArthur & Capra, *Am J Hum Genet* 2021 · [10.1016/j.ajhg.2020.12.008](https://doi.org/10.1016/j.ajhg.2020.12.008) |
 | [DoRothEA](https://github.com/saezlab/dorothea) · [MSigDB Hallmark](https://www.gsea-msigdb.org) | TF regulons; Hallmark gene sets | TF activity; GSEA | Garcia-Alonso et al., *Genome Res* 2019 · Liberzon et al., *Cell Syst* 2015 |
+<<<<<<< HEAD
 
+=======
+| this study | mouse liver RNA-seq (control vs UTP, n = 3 + 3) | cross-species replication | GEO accession pending |
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 
 The three bulk cohorts are shipped in `data/raw/` as raw counts; all other resources are downloaded (see
 [Reproduce the analysis](#reproduce-the-analysis)), because of their size and their own licences.
@@ -72,7 +97,11 @@ The three bulk cohorts are shipped in `data/raw/` as raw counts; all other resou
 | [![Fig. 1](results/figures/jhep/Fig1_design_and_positional_framework.png)](results/figures/jhep/Fig1_design_and_positional_framework.pdf) **Fig. 1** Positional framework | [![Fig. 2](results/figures/jhep/Fig2_linear_replacement_thresholds.png)](results/figures/jhep/Fig2_linear_replacement_thresholds.pdf) **Fig. 2** Linear replacement and thresholds | [![Fig. 3](results/figures/jhep/Fig3_mechanical_switch.png)](results/figures/jhep/Fig3_mechanical_switch.pdf) **Fig. 3** The mechanical switch |
 | [![Fig. 4](results/figures/jhep/Fig4_neighbourhood_coupling.png)](results/figures/jhep/Fig4_neighbourhood_coupling.pdf) **Fig. 4** Cis-coupled neighbourhoods | [![Fig. 5](results/figures/jhep/Fig5_genome_circos.png)](results/figures/jhep/Fig5_genome_circos.pdf) **Fig. 5** Genome-wide map | [![Fig. 6](results/figures/jhep/Fig6_two_layers_and_targets.png)](results/figures/jhep/Fig6_two_layers_and_targets.pdf) **Fig. 6** Two layers and targets |
 
-Vector PDFs and 300-dpi TIFFs are in `results/figures/jhep/`; supplementary figures are `SuppFig_*` in the same folder.
+<<<<<<< HEAD
+Vector PDFs and 300-dpi TIFFs are in `results/figures/jhep/`; Supplementary Figures S1–S9 are in `results/figures/jhep/supplementary/`.
+=======
+Vector PDFs and 300-dpi TIFFs are in `results/figures/jhep/`; Supplementary Figures S1–S9 are in `results/figures/jhep/supplementary/`.
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 A second figure set formatted for *Genome Research* is in `results/figures/genome_research/`.
 
 ---
@@ -86,7 +115,11 @@ scripts/
     01–08                        expression, positional spectra, DE, composition, single cell, GSEA/TF, targets
     11–15b                       mouse, eQTL, GTEx tissues, GWAS loci, the F4 mechanical switch
     18_snrnaseq_gse202379.py     single-nucleus validation (47 donors)
-    09, 10, 16                   figures (Genome Research set; JHEP set)
+<<<<<<< HEAD
+    09, 10, 16, 17               figures (Genome Research set; JHEP main set; JHEP supplementary S1–S9)
+=======
+    09, 10, 16, 17               figures (Genome Research set; JHEP main set; JHEP supplementary S1–S9)
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
     audit_numbers.py             re-checks every number quoted in the manuscripts
     99_readme_overview.py        the overview image above
 data/raw/                        bulk counts, GEO metadata, gene-order grid, mouse counts (shipped)
@@ -128,7 +161,11 @@ To check the released results without re-running anything, `make audit` alone re
 
 ## Audit
 
-`scripts/audit_numbers.py` recomputes 71 numbers quoted in the manuscripts from the regenerated tables and fails if any
+<<<<<<< HEAD
+`scripts/audit_numbers.py` recomputes 81 numbers quoted in the manuscripts from the regenerated tables and fails if any
+=======
+`scripts/audit_numbers.py` recomputes 81 numbers quoted in the manuscripts from the regenerated tables and fails if any
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 differs (all pass in v1.0.0). `AUDIT.md` reports the clean re-run, the component-by-component methodological review,
 the corrections made during review, and the open items.
 
@@ -154,8 +191,12 @@ The candidate targets are a ranking for follow-up, not a validated discovery set
 
 ## Publication
 
+<<<<<<< HEAD
 **Liver fibrosis in MASLD progresses by linear cell replacement until a mechanically driven switch at the F3–F4
 transition.** Manuscript submitted to the *Journal of Hepatology*. Until it is published, please cite the archived
+=======
+**Cellular composition and mechanotransduction signatures across fibrosis stages in MASLD.** Manuscript submitted to the *Journal of Hepatology*. Until it is published, please cite the archived
+>>>>>>> 3ed2618 (Clean re-run, review corrections, supplementary figures S1-S9)
 software release below.
 
 ---
