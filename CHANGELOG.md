@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0 additions (pre-release)
+* `15b_mechanical_switch.py`: gene-level, pathway, driver and positional analysis of the F3→F4 switch (Supplementary Table S17; Fig. 3D–H of the JHEP figure set).
+* Hepatocytes admitted to the scRNA-seq analyses (≥40 cells per donor, flagged low coverage); bulk-defined hepatocyte class and receptors of hepatocyte-directed drugs (S9c–d, S17i) in Fig. 6C,F,G.
+* `18_snrnaseq_gse202379.py`: validation in snRNA-seq of 47 SAF-staged donors (S18a–g; Supplementary Fig. S8).
+* GWAS figure moved to Supplementary; circos and two-layer/target panels split into Figs 5 and 6.
+
 ## v1.0.0 — 2026-10-02
 First public release, accompanying the submitted manuscripts.
 

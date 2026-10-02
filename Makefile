@@ -3,7 +3,7 @@ S  := scripts
 STEPS := 01_prepare_expression 02_spectra 03_specparam 04_differential_expression \
          05_composition_distance_tads 06_single_cell 07_gsea_tf 08_targets_fingerprint \
          09_make_figures 10_make_circos 11_mouse_validation 12_eqtl_shared_variants \
-         13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods 16_figures_jhep
+         13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods 15b_mechanical_switch 18_snrnaseq_gse202379 16_figures_jhep
 
 .PHONY: all external analysis figures audit clean help
 help:
@@ -18,7 +18,7 @@ all:
 	@set -e; cd $(S); for s in $(STEPS); do echo ">>> $$s"; $(PY) $$s.py; done
 
 analysis:
-	@set -e; cd $(S); for s in 01_prepare_expression 02_spectra 03_specparam 04_differential_expression 05_composition_distance_tads 06_single_cell 07_gsea_tf 08_targets_fingerprint 11_mouse_validation 12_eqtl_shared_variants 13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods; do echo ">>> $$s"; $(PY) $$s.py; done
+	@set -e; cd $(S); for s in 01_prepare_expression 02_spectra 03_specparam 04_differential_expression 05_composition_distance_tads 06_single_cell 07_gsea_tf 08_targets_fingerprint 11_mouse_validation 12_eqtl_shared_variants 13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods 15b_mechanical_switch; do echo ">>> $$s"; $(PY) $$s.py; done
 
 # The figure scripts read results/intermediate/*.pkl, so run `make all` (or `make analysis`) at least
 # once before `make figures`; `make clean` removes those intermediates.

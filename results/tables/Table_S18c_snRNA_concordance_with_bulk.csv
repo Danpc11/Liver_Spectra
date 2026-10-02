@@ -1,0 +1,15 @@
+population,donors,genes,rho_all_vs_bulk_adjusted,rho_all_vs_bulk_raw,n_hepspec,rho_hepspec_vs_bulk_adjusted
+Hepatocyte,42,16567,0.1255,0.3065,404,0.2857
+Hepatocyte (+end stage),47,16855,0.332,0.5352,404,0.4478
+Cholangiocyte,22,6299,0.0001,0.0138,190,0.0165
+Cholangiocyte (+end stage),27,7202,0.2127,0.1738,214,0.0986
+HSC,22,5242,0.0259,-0.1467,183,0.191
+HSC (+end stage),27,5307,0.1572,0.0598,173,0.2551
+Endothelium,34,9073,0.0021,-0.0313,256,0.3424
+Endothelium (+end stage),39,9140,0.1211,0.0948,258,0.3041
+Macrophage,13,5121,-0.008,-0.1421,152,0.1538
+Macrophage (+end stage),18,6013,0.1317,-0.0172,168,0.1931
+T/NK,27,5141,0.0386,-0.0474,157,0.2581
+T/NK (+end stage),32,5557,0.0894,0.022,162,0.3402
+B/Plasma,17,3062,0.0474,-0.1508,193,0.2448
+B/Plasma (+end stage),21,3642,0.1487,-0.0359,220,0.2779

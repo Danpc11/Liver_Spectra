@@ -2,7 +2,7 @@
 cirrhosis-vs-healthy statistic, spatial autocorrelation, adjacent concordant pairs, within-type neighbour co-expression.
 Streams one sample at a time (fits in ~3 GB RAM). Outputs: Table_S8_*
 """
-import os, re, glob, pickle
+import os, re, glob, pickle, zlib
 import numpy as np, pandas as pd, scipy.io
 from scipy import stats
 from common import *
@@ -49,13 +49,26 @@ pickle.dump((PB, NC, gids), open(inter('pb_sc.pkl'), 'wb'))
 # within-type DE and spatial autocorrelation
 names = keep.set_index('gene_id').gene_name; order = K.reindex(gids).dropna(subset=['grid_index']).sort_values(['chr', 'grid_index'])
 types = sorted(set(t for _, _, t in PB)); res, TT = [], {}
+MIN_CELLS = {'Hepatocito': 40}
 for t in types:
-    keys = [k for k in PB if k[2] == t and NC[k] >= 100]; h = [k for k in keys if k[1] == 'healthy']; c_ = [k for k in keys if k[1] == 'cirrhotic']
+    # hepatocytes are poorly captured by tissue dissociation in this dataset (≈2% of cells), so they are admitted with ≥40 cells per donor;
+    # all other populations need ≥100 cells per donor. Hepatocyte estimates are therefore noisier and are interpreted with that caveat.
+    min_cells = MIN_CELLS.get(t, 100)
+    keys = [k for k in PB if k[2] == t and NC[k] >= min_cells]; h = [k for k in keys if k[1] == 'healthy']; c_ = [k for k in keys if k[1] == 'cirrhotic']
     if len(h) < 3 or len(c_) < 3: continue
     Mx = np.column_stack([PB[k] for k in h + c_]); cpm = np.log2(Mx / Mx.sum(0) * 1e6 + 1); expr = (Mx >= 5).mean(1) >= 0.5
     tstat, p = stats.ttest_ind(cpm[:, len(h):], cpm[:, :len(h)], axis=1, equal_var=False); T = pd.Series(tstat, index=gids); T[~expr] = np.nan
     Tg = T.reindex(order.index).dropna(); byc = [Tg.loc[g.index.intersection(Tg.index)].values for _, g in order.groupby('chr')]; byc = [v for v in byc if len(v) > 20]
-    a1 = acf_by_chr(byc, (1,))[0]; nul = np.array([acf_by_chr([rng.permutation(v) for v in byc], (1,))[0] for _ in range(200)]); TT[t] = T
+    a1 = acf_by_chr(byc, (1,))[0]; rng_t = np.random.default_rng(zlib.crc32(t.encode()))  # per-population seed: results do not depend on which populations are tested
+    nul = np.array([acf_by_chr([rng_t.permutation(v) for v in byc], (1,))[0] for _ in range(200)]); TT[t] = T
     res.append({'type': t, 'healthy_donors': len(h), 'cirrhotic_donors': len(c_), 'cells': sum(NC[k] for k in keys), 'genes': int(Tg.notna().sum()), 'acf_lag1': a1, 'null_p97.5': np.quantile(nul, .975), 'z': (a1 - nul.mean()) / nul.std()})
 pd.DataFrame(res).round(4).to_csv(tab('Table_S8c_within_type_spatial_autocorrelation.csv'), index=False); print(pd.DataFrame(res).round(3))
 TD = pd.DataFrame(TT); TD['gene_name'] = names.reindex(TD.index).values; TD.to_csv(tab('Table_S8d_within_type_t_cirrhosis_vs_healthy.csv'))
+# mean expression per population (log2 CPM over all donors) -> lineage specificity of each gene
+EX = {}
+for t in types:
+    keys = [k for k in PB if k[2] == t and NC[k] >= MIN_CELLS.get(t, 100)]
+    if len(keys) < 4: continue
+    Mx = np.column_stack([PB[k] for k in keys]); EX[t] = np.log2(Mx / Mx.sum(0) * 1e6 + 1).mean(1)
+EXd = pd.DataFrame(EX, index=gids); EXd['gene_name'] = names.reindex(EXd.index).values; EXd.round(4).to_csv(tab('Table_S8e_mean_expression_by_population.csv'))
+print('populations tested:', [r['type'] for r in res])

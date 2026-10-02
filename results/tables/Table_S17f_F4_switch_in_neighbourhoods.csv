@@ -1,0 +1,5 @@
+switch_set,n_genes,in,observed,fraction,background,odds_P
+switch up,291,DE neighbourhood,41,0.1409,0.1096,0.0568
+switch up,291,coupled pair,76,0.2612,0.2126,0.0274
+switch down,547,DE neighbourhood,90,0.1645,0.1096,0.0001
+switch down,547,coupled pair,197,0.3601,0.2126,0.0

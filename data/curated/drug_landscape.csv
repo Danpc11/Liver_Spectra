@@ -25,3 +25,17 @@ GSN,gelsolin,recombinant plasma gelsolin clinical (sepsis),"clinical, other"
 FABP5,FABP5,FABP4/5 inhibitors preclinical,preclinical
 HLA-DMA,MHC-II,not a target,none
 CD300LF,CD300LF,no modulator,none
+THRB,thyroid hormone receptor-β,resmetirom (THR-β agonist): approved for non-cirrhotic MASH with F2–F3 fibrosis (FDA 2024),"approved, liver"
+NR1H4,FXR,obeticholic acid (FXR agonist): not approved for MASH (FDA 2023); other FXR agonists in development,"clinical, liver"
+PPARA,PPARα,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver"
+PPARD,PPARδ,lanifibranor (pan-PPAR agonist): phase 3 in MASH (NATiV3),"clinical, liver"
+PPARG,PPARγ,lanifibranor (pan-PPAR); pioglitazone used off-label in MASH,"clinical, liver"
+FASN,fatty acid synthase,denifanstat (FASN inhibitor): phase 3 in MASH,"clinical, liver"
+ACACA,acetyl-CoA carboxylase 1,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver"
+ACACB,acetyl-CoA carboxylase 2,firsocostat (ACC inhibitor): phase 2 in MASH,"clinical, liver"
+SCD,stearoyl-CoA desaturase,aramchol (SCD1 partial inhibitor): phase 3 in MASH,"clinical, liver"
+HSD17B13,HSD17B13,siRNA (GSK4532990/ARO-HSD; rapirosiran): phase 2 in MASH,"clinical, liver"
+PNPLA3,PNPLA3,antisense oligonucleotide (AZD2693): phase 2 in PNPLA3 I148M carriers,"clinical, liver"
+DGAT2,DGAT2,antisense (ION224) and small molecule (ervogastat): phase 2 in MASH,"clinical, liver"
+FGFR1,FGFR1c (FGF21 receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver"
+KLB,β-Klotho (FGF21 co-receptor),"FGF21 analogues efruxifermin, pegozafermin: phase 3 in MASH","clinical, liver"

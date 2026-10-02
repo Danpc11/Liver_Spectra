@@ -22,7 +22,7 @@ liver-positional-spectra/
     ├── tables/             Supplementary Tables S1–S16 (CSV) + audit_number_checks.csv — all GENERATED
     └── figures/
         ├── genome_research/  Figs 1–5, circos Figs 6–7, Extended Data Figs 1–2 (PDF + PNG)
-        └── jhep/             Figs 1–6 (PDF + PNG + TIFF 300 dpi) and Table1_targets.csv
+        └── jhep/             Figs 1–6, SuppFig_GWAS (PDF + PNG + TIFF 300 dpi) and Table1_targets.csv
 ```
 
 ## Quick start
@@ -65,7 +65,9 @@ the printed precision.
 | 13 | `13_gtex_tissues.py` | spectra in 11 GTEx tissues; tissue specificity of the architecture; replication of biopsy peaks | S14a–f, Extended Data Fig. 2 |
 | 14 | `14_eqtl_gtex_signif_pairs.py` | GTEx v8 liver significant eQTL pairs: shared (same-direction) variants in coupled vs uncoupled neighbours, MH stratified by distance | S13d–g |
 | 15 | `15_gwas_loci_neighbourhoods.py` | MASLD/cirrhosis GWAS loci (curated + GWAS Catalog with non-liver controls) in coupled neighbourhoods | S16, S16b–d |
-| 16 | `16_figures_jhep.py` | Journal of Hepatology figure set (Figs 1–6, final numbering) and Table 1 | `results/figures/jhep/` |
+| 15b | `15b_mechanical_switch.py` | mechanotransduction programme scores and thresholds (S15), F4-likeness of composition (S7c), the F3→F4 switch gene by gene, and the timing of lineage-intrinsic targets (S17h): composition-adjusted step at F4, DESeq2 F4 vs F3, GSEA with mechanotransduction sets, TF drivers, positional scale, cell of origin | S15, S7c, S17a–g |
+| 18 | `18_snrnaseq_gse202379.py` | validation in snRNA-seq of 47 donors (GSE202379): annotation, donor pseudobulk, concordance with bulk, hepatocyte class, neighbour coupling, neighbour co-expression across nuclei and the F4 switch within populations; Figs 4D,E and 6E–G, Supplementary Fig. S8 | S18a–h |
+| 16 | `16_figures_jhep.py` | Journal of Hepatology figure set (Figs 1–6, Supplementary GWAS figure) and Table 1 | `results/figures/jhep/` |
 
 ## Data manifest
 
@@ -88,6 +90,7 @@ the printed precision.
 | `hallmark.gmt` | MSigDB Hallmark v7.0 symbols | public mirror (replace with official MSigDB download) |
 | `TAD-stability-heritability-master/data/20binsTADlandscape/Liver_leung2015/` | liver TAD partitions (hg19), 20 bins per domain | github.com/emcarthur/TAD-stability-heritability |
 | `GSE136103/*_{matrix.mtx,genes.tsv,barcodes.tsv}.gz` | Ramachandran 2019 human liver scRNA-seq (20 liver samples used) | GEO GSE136103 (`GSE136103_RAW.tar`, 436 MB, manual download) |
+| `GSE202379/GSM*_raw_counts_csv.gz` (59) + series matrix | snRNA-seq of 47 MASLD donors, SAF-staged (Gribben et al., Nature 2024) | GEO GSE202379 |
 | `QTD000266.credible_sets.tsv.gz` | GTEx liver eQTL fine-mapped credible sets | eQTL Catalogue FTP `susie/QTS000015/QTD000266/` |
 | `gwas-catalog-download-associations-v1.0-full.tsv` | GWAS Catalog full associations (P < 5e-8 filtered in script 15) | GWAS Catalog downloads |
 | `Liver.v8.signif_variant_gene_pairs.txt.gz`, `Liver.v8.egenes.txt.gz` | GTEx v8 liver single-tissue cis-eQTL (significant pairs, eGenes) | GTEx Portal, QTL downloads (GTEx_Analysis_v8_eQTL.tar) |
@@ -119,6 +122,7 @@ the printed precision.
 | S8a–d | `Table_S8a_single_cell_annotation.csv`, `Table_S8b_within_type_neighbour_coexpression.csv`, `Table_S8c_within_type_spatial_autocorrelation.csv`, `Table_S8d_within_type_t_cirrhosis_vs_healthy.csv` | single-cell annotation, co-expression, ACF, per-type t | 06 |
 | S9a–b | `Table_S9a_candidate_targets_lineage_intrinsic.csv`, `Table_S9b_integration_bulk_sc_per_gene.csv` | prioritised targets with drug landscape; full integration table | 08 |
 | S10a–h | `Table_S10a_GSEA_hallmark_ordinal.csv`, `Table_S10b_GSEA_hallmark_composition_adjusted.csv`, `Table_S10c_dorothea_ABC_regulons_used.csv`, `Table_S10d_DoRothEA_TF_activity_vs_stage.csv`, `Table_S10e_TF_activity_per_sample.csv`, `Table_S10f_shared_TF_coupled_pairs.csv`, `Table_S10g_shared_TFs_by_direction.csv`, `Table_S10h_TF_x_Hallmark_overlap.csv` | GSEA, TF activity, shared regulators, TF × pathway matrix | 07 |
+| S17a–g | `Table_S17a_F4_switch_per_gene.csv` … `Table_S17g_F4_switch_genes_cell_of_origin.csv` | F4 mechanical switch: per-gene step, GSEA, TF drivers, spatial autocorrelation, power by band, neighbourhood enrichment, cell of origin | 15b |
 | S11 | `Table_S11_spectral_fingerprint_real_vs_shuffled.csv` | leave-one-cohort-out classification, real vs shuffled gene order | 08 |
 | S12a–e | `Table_S12a_mouse_DESeq2_UTP_vs_CTL.csv`, `Table_S12b_mouse_spectrum_universal_peaks.csv`, `Table_S12c_mouse_spatial_autocorrelation.csv`, `Table_S12d_mouse_concordance_by_distance.csv`, `Table_S12e_mouse_syntenic_pairs.csv` | mouse validation: DE, spectrum, ACF, distance decay, syntenic pairs | 11 |
 

@@ -18,18 +18,41 @@ DRUG = {'secreted_ligand': r'^(CXCL|CCL|IL[0-9]|TGFB[123]$|PDGF[ABCD]$|THBS|SPP1
         'kinase': r'(^MAP[0-9]?K|^PRK|^CDK|^JAK|^SRC$|^SYK$|^BTK$|^ROCK|^LIMK|^PIK3|^AKT|^MTOR$|^PTK2$|^TYK2$)',
         'metabolic_enzyme': r'(^HSD|^CYP|^ACAC|^SCD$|^DGAT|^FASN$|^PNPLA|^HMGCR$|^NAMPT$|^IDO1$|^ALOX|^PTGS|^MAOA|^MAOB|^DPP4$|^ACE$|^NOX|^CYBB$|^P4HA|^PLOD|^TGM2$|^GLUL$)'}
 G = pd.DataFrame({'gene_name': TD.gene_name, 't_bulk_stage': T.t_stage.reindex(TD.index), 't_bulk_comp_adjusted': T.t_stage_comp_adjusted.reindex(TD.index), 'padj_bulk': de2.padj.reindex(TD.index)})
-sc_cols = [c for c in ['Mesenquima_HSC', 'Colangiocito', 'Fagocito_mononuclear', 'Endotelio', 'T_NK', 'B', 'Plasma', 'pDC'] if c in TD.columns]
+sc_cols = [c for c in ['Hepatocito', 'Mesenquima_HSC', 'Colangiocito', 'Fagocito_mononuclear', 'Endotelio', 'T_NK', 'B', 'Plasma', 'pDC'] if c in TD.columns]
 for c in sc_cols: G['t_sc_' + c] = TD[c]
 P2 = P[(~P.paralog_family) & (np.sign(P.t1) == np.sign(P.t2)) & (P.t1.abs() > 3) & (P.t2.abs() > 3)]; partner = {}
 for _, r in P2.iterrows(): partner.setdefault(r.g1, []).append(r.n2); partner.setdefault(r.g2, []).append(r.n1)
 G['coupled_neighbour'] = [','.join(partner.get(g, [])) for g in G.index]; block_genes = set(g for gs in V.genes for g in str(gs).split(',')); G['in_DE_neighbourhood'] = G.gene_name.isin(block_genes)
 G['druggable_class'] = G.gene_name.map(lambda n: ';'.join(k for k, p in DRUG.items() if re.search(p, str(n))))
+# Hepatocytes are reported (t_sc_Hepatocito) but not used as validators: in this dissociation-based dataset they are too sparse
+# (45-170 cells per donor) and their cirrhosis-vs-healthy statistic is uncorrelated with the bulk intrinsic effect (r ~ 0.02).
 main = ['t_sc_' + c for c in ['Mesenquima_HSC', 'Colangiocito', 'Fagocito_mononuclear', 'Endotelio'] if 't_sc_' + c in G.columns]
 G['cell_type_up_sc'] = [','.join(c.replace('t_sc_', '') for c in main if pd.notna(r[c]) and r[c] > 2) for _, r in G.iterrows()]; G['t_sc_max'] = G[main].max(axis=1)
 C = G[(G.t_bulk_stage > 4) & (G.t_sc_max > 2) & (G.t_bulk_comp_adjusted > 1.5)].copy()
 C['score'] = C.t_bulk_comp_adjusted.clip(0, 10) / 10 + C.t_sc_max.clip(0, 8) / 8 + (C.druggable_class != '').astype(float) + (C.coupled_neighbour != '').astype(float) * .5 + C.in_DE_neighbourhood.astype(float) * .5
 DL = pd.read_csv(os.path.join(ROOT, 'data', 'curated', 'drug_landscape.csv')); C.index.name = 'gene_id'; C = C.reset_index().merge(DL, on='gene_name', how='left').set_index('gene_id'); C['development_stage'] = C.development_stage.fillna('not curated')
 C.sort_values('score', ascending=False).round(3).to_csv(tab('Table_S9a_candidate_targets_lineage_intrinsic.csv')); G.round(3).to_csv(tab('Table_S9b_integration_bulk_sc_per_gene.csv'))
+print('lineage-intrinsic targets (rising):', len(C), '| first-ranked lineage:', C[main].idxmax(axis=1).str.replace('t_sc_', '').value_counts().to_dict())
+
+# ---- hepatocyte-intrinsic class (both directions). Hepatocytes are poorly captured by dissociation-based scRNA-seq, so the
+# class is anchored in bulk: hepatocyte-specific expression (>=2-fold above every other population in the scRNA-seq reference),
+# and a composition-adjusted stage effect |t| > 3 in the 437 biopsies; the scRNA-seq hepatocyte statistic is reported, not required.
+EX = pd.read_csv(tab('Table_S8e_mean_expression_by_population.csv'), index_col=0)
+others = [c for c in EX.columns if c not in ('gene_name', 'Hepatocito')]
+G['hep_specificity_log2'] = (EX['Hepatocito'] - EX[others].max(axis=1)).reindex(G.index)
+G['hep_expr_log2cpm'] = EX['Hepatocito'].reindex(G.index)
+H = G[(G.hep_specificity_log2 > 1) & (G.t_bulk_comp_adjusted.abs() > 3)].copy()
+print('concordance of scRNA-seq hepatocyte statistic with bulk intrinsic effect: r = %.3f (all genes), %.3f (hepatocyte-specific)' % (
+      G[['t_bulk_comp_adjusted', 't_sc_Hepatocito']].dropna().corr().iloc[0, 1], G[G.hep_specificity_log2 > 1][['t_bulk_comp_adjusted', 't_sc_Hepatocito']].dropna().corr().iloc[0, 1]))
+H['direction'] = np.where(H.t_bulk_comp_adjusted > 0, 'up', 'down')
+H.index.name = 'gene_id'; H = H.reset_index().merge(DL, on='gene_name', how='left').set_index('gene_id'); H['development_stage'] = H.development_stage.fillna('not curated')
+H.sort_values('t_bulk_comp_adjusted').round(3).to_csv(tab('Table_S9c_hepatocyte_intrinsic_genes.csv'))
+print('hepatocyte-intrinsic genes:', H.direction.value_counts().to_dict())
+# reference: genes targeted by hepatocyte-directed MASH drugs, whatever their behaviour here
+REF = ['THRB', 'NR1H4', 'PPARA', 'PPARD', 'PPARG', 'FASN', 'ACACA', 'ACACB', 'SCD', 'HSD17B13', 'PNPLA3', 'DGAT2', 'FGFR1', 'KLB']
+R_ = G[G.gene_name.isin(REF)][['gene_name', 't_bulk_stage', 't_bulk_comp_adjusted', 't_sc_Hepatocito', 'hep_specificity_log2', 'hep_expr_log2cpm']]
+R_.index.name = 'gene_id'; R_ = R_.reset_index().merge(DL, on='gene_name', how='left').set_index('gene_id'); R_.round(3).to_csv(tab('Table_S9d_hepatocyte_drug_targets_reference.csv'))
+print(R_[['gene_name', 't_bulk_stage', 't_bulk_comp_adjusted', 't_sc_Hepatocito', 'hep_specificity_log2', 'development_stage']].round(2).to_string(index=False))
 print('candidates:', len(C))
 
 # ---- spectral fingerprint control (leave-one-cohort-out)

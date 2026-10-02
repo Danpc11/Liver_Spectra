@@ -1,0 +1,57 @@
+population,score,donors,F4_donors,step_F4,t_step_F4,mean_Normal,mean_F0,mean_F1,mean_F2,mean_F3,mean_F4
+Hepatocyte,YAP_TAZ_targets,42,4,0.0003,0.0182,0.1719,0.1182,0.1512,0.1442,0.1499,0.1433
+Hepatocyte,mechanosensing,42,4,0.0217,0.8859,0.3874,0.3233,0.3717,0.3523,0.3459,0.3595
+Hepatocyte,matrix_crosslinking,42,4,0.0115,0.9339,0.1166,0.0716,0.0796,0.0748,0.0783,0.077
+Hepatocyte,switch_genes,42,4,0.3366,2.4513,0.1048,-0.1114,-0.0492,0.009,-0.0751,0.2478
+Hepatocyte (+end stage),YAP_TAZ_targets,47,9,0.1132,4.4414,0.1719,0.1182,0.1512,0.1442,0.1499,0.2562
+Hepatocyte (+end stage),mechanosensing,47,9,0.0715,3.2325,0.3874,0.3233,0.3717,0.3523,0.3459,0.4093
+Hepatocyte (+end stage),matrix_crosslinking,47,9,0.1126,4.8306,0.1166,0.0716,0.0796,0.0748,0.0783,0.178
+Hepatocyte (+end stage),switch_genes,47,9,0.7914,5.8043,-0.0539,-0.1951,-0.154,-0.1093,-0.1873,0.5997
+Cholangiocyte,YAP_TAZ_targets,22,2,0.0238,0.5482,0.3549,,0.2563,0.2871,0.2833,0.2966
+Cholangiocyte,mechanosensing,22,2,0.009,0.2317,0.5794,,0.4916,0.4992,0.5165,0.5066
+Cholangiocyte,matrix_crosslinking,22,2,0.0001,0.012,0.0797,,0.0565,0.0693,0.0688,0.0692
+Cholangiocyte,switch_genes,22,2,0.2627,1.9694,0.0603,,-0.0819,0.0752,-0.1071,0.1951
+Cholangiocyte (+end stage),YAP_TAZ_targets,27,7,0.1335,3.2977,0.3549,,0.2563,0.2871,0.2833,0.4064
+Cholangiocyte (+end stage),mechanosensing,27,7,0.0942,2.7164,0.5794,,0.4916,0.4992,0.5165,0.5918
+Cholangiocyte (+end stage),matrix_crosslinking,27,7,0.0268,2.5222,0.0797,,0.0565,0.0693,0.0688,0.0958
+Cholangiocyte (+end stage),switch_genes,27,7,0.5273,4.7082,-0.0732,,-0.1873,-0.0152,-0.226,0.3553
+HSC,YAP_TAZ_targets,22,2,-0.0055,-0.1144,0.3863,,0.2575,0.2478,0.2771,0.2155
+HSC,mechanosensing,22,2,0.0129,0.1586,0.6614,,0.4705,0.5049,0.4995,0.457
+HSC,matrix_crosslinking,22,2,-0.0135,-0.3331,0.3772,,0.3798,0.4236,0.3685,0.3825
+HSC,switch_genes,22,2,0.1181,1.273,0.134,,-0.0425,-0.0378,0.0229,0.0686
+HSC (+end stage),YAP_TAZ_targets,27,7,0.0841,2.0889,0.3863,,0.2575,0.2478,0.2771,0.3052
+HSC (+end stage),mechanosensing,27,7,0.0973,1.6361,0.6614,,0.4705,0.5049,0.4995,0.5414
+HSC (+end stage),matrix_crosslinking,27,7,0.0118,0.3171,0.3772,,0.3798,0.4236,0.3685,0.4078
+HSC (+end stage),switch_genes,27,7,0.4159,3.7798,0.0119,,-0.1364,-0.1192,-0.0752,0.2864
+Endothelium,YAP_TAZ_targets,34,3,-0.0149,-1.1726,0.1638,0.1277,0.1415,0.1529,0.1612,0.1422
+Endothelium,mechanosensing,34,3,-0.0163,-0.3968,0.5872,0.4127,0.4726,0.4867,0.5049,0.4532
+Endothelium,matrix_crosslinking,34,3,-0.0014,-0.0815,0.1438,0.0985,0.1195,0.1284,0.1201,0.1154
+Endothelium,switch_genes,34,3,0.2491,2.0016,0.0186,-0.0013,0.0246,-0.004,-0.08,0.1716
+Endothelium (+end stage),YAP_TAZ_targets,39,8,0.0423,2.8069,0.1638,0.1277,0.1415,0.1529,0.1612,0.1993
+Endothelium (+end stage),mechanosensing,39,8,0.1102,2.8998,0.5872,0.4127,0.4726,0.4867,0.5049,0.5797
+Endothelium (+end stage),matrix_crosslinking,39,8,0.0446,2.7617,0.1438,0.0985,0.1195,0.1284,0.1201,0.1614
+Endothelium (+end stage),switch_genes,39,8,0.5078,5.1058,-0.0844,-0.0786,-0.0438,-0.0786,-0.1564,0.3645
+Macrophage,YAP_TAZ_targets,13,0,0.0,,0.114,,0.1118,0.131,0.1286,
+Macrophage,mechanosensing,13,0,0.0,,0.4396,,0.3414,0.4162,0.4022,
+Macrophage,matrix_crosslinking,13,0,0.0,,0.1086,,0.0874,0.097,0.1,
+Macrophage,switch_genes,13,0,0.0,,0.0718,,-0.086,0.0308,-0.0268,
+Macrophage (+end stage),YAP_TAZ_targets,18,5,0.03,2.3321,0.114,,0.1118,0.131,0.1286,0.1645
+Macrophage (+end stage),mechanosensing,18,5,-0.0008,-0.0278,0.4396,,0.3414,0.4162,0.4022,0.3838
+Macrophage (+end stage),matrix_crosslinking,18,5,0.0332,1.5564,0.1086,,0.0874,0.097,0.1,0.1257
+Macrophage (+end stage),switch_genes,18,5,0.4417,4.6596,-0.0598,,-0.2304,-0.0674,-0.1269,0.3041
+T/NK,YAP_TAZ_targets,27,1,-0.0069,-0.4711,0.0475,,0.0487,0.0427,0.0503,0.0398
+T/NK,mechanosensing,27,1,0.0133,0.3856,0.24,,0.2355,0.2539,0.25,0.2699
+T/NK,matrix_crosslinking,27,1,0.0141,1.5535,0.0402,,0.0335,0.034,0.0344,0.046
+T/NK,switch_genes,27,1,0.1388,0.5708,-0.0063,,-0.0191,0.0666,-0.103,0.104
+T/NK (+end stage),YAP_TAZ_targets,32,6,0.038,4.0187,0.0475,,0.0487,0.0427,0.0503,0.0846
+T/NK (+end stage),mechanosensing,32,6,-0.0017,-0.0925,0.24,,0.2355,0.2539,0.25,0.255
+T/NK (+end stage),matrix_crosslinking,32,6,0.0424,4.1107,0.0402,,0.0335,0.034,0.0344,0.0742
+T/NK (+end stage),switch_genes,32,6,0.4322,3.257,-0.1186,,-0.0841,-0.0044,-0.1763,0.3411
+B/Plasma,YAP_TAZ_targets,17,2,-0.0057,-0.2363,0.083,,0.0873,0.0899,0.1228,0.1114
+B/Plasma,mechanosensing,17,2,-0.0,-0.0006,0.2608,,0.2806,0.302,0.2989,0.3166
+B/Plasma,matrix_crosslinking,17,2,0.0025,0.1412,0.0557,,0.0695,0.0709,0.0982,0.1001
+B/Plasma,switch_genes,17,2,-0.0348,-0.2622,0.0406,,-0.0303,-0.0295,0.0816,-0.0135
+B/Plasma (+end stage),YAP_TAZ_targets,21,6,0.0914,2.5699,0.083,,0.0873,0.0899,0.1228,0.2084
+B/Plasma (+end stage),mechanosensing,21,6,0.0463,1.4696,0.2608,,0.2806,0.302,0.2989,0.3628
+B/Plasma (+end stage),matrix_crosslinking,21,6,0.0685,2.3864,0.0557,,0.0695,0.0709,0.0982,0.1661
+B/Plasma (+end stage),switch_genes,21,6,0.4689,2.7561,-0.1198,,-0.1443,-0.1597,-0.0945,0.3405

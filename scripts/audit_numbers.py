@@ -39,7 +39,10 @@ chk('hepatocyte score, Normal', 0.30, C6.groupby('estadio').Hepatocito.mean()['N
 B7 = pd.read_csv(tab('Table_S7a_threshold_vs_linear.csv')).set_index('variable')
 chk('cholangiocyte dAIC at F3', 8.6, B7.loc['Colangiocito', 'dAIC_step_at_F3']); chk('cholangiocyte dAIC at F4', 13.6, B7.loc['Colangiocito', 'dAIC_step_at_F4']); chk('stellate dAIC at F4', 4.5, B7.loc['HSC', 'dAIC_step_at_F4'])
 Bi = pd.read_csv(tab('Table_S7b_within_stage_bimodality.csv')); r = Bi[(Bi.variable == 'Hepatocito') & (Bi.estadio == 'F3')].iloc[0]
-chk('F3 hepatocyte dBIC', 12.8, r['dBIC_1_minus_2']); chk('F3 minor component', 0.08, r.min_weight, tol=0.15)
+chk('F3 hepatocyte dBIC', 12.8, r['dBIC_1_minus_2'])
+F4L = pd.read_csv(tab('Table_S7c_F4_likeness_per_sample.csv'), index_col=0); thr = F4L[F4L.estadio == 'F4'].F4_likeness.quantile(0.25)
+f3 = F4L[F4L.estadio == 'F3']; chk('F3 with F4-like composition', 0.57, (f3.F4_likeness > thr).mean())
+chk('YAP/TAZ, F4-like F3', 0.32, f3[f3.F4_likeness > thr].YAP_TAZ_targets.mean(), tol=0.1); chk('YAP/TAZ, F4', 0.91, F4L[F4L.estadio == 'F4'].YAP_TAZ_targets.mean())
 S8 = pd.read_csv(tab('Table_S8c_within_type_spatial_autocorrelation.csv')).set_index('type')
 chk('sc ACF macrophage', 0.099, S8.loc['Fagocito_mononuclear', 'acf_lag1']); chk('sc ACF endothelium', 0.080, S8.loc['Endotelio', 'acf_lag1']); chk('sc ACF stellate', 0.066, S8.loc['Mesenquima_HSC', 'acf_lag1'])
 chk('lineage-intrinsic targets', 154, len(pd.read_csv(tab('Table_S9a_candidate_targets_lineage_intrinsic.csv'))), tol=0.02)
@@ -63,6 +66,23 @@ S16 = pd.read_csv(tab('Table_S16c_GWAS_catalog_enrichment_by_trait.csv')).set_in
 chk('cirrhosis loci in DE neighbourhoods', 0.229, S16.loc['liver fibrosis/cirrhosis', 'frac_in_DE_neighbourhood'])
 chk('cirrhosis loci local ACF', 0.169, S16.loc['liver fibrosis/cirrhosis', 'acf_windows'])
 chk('MASLD loci in coupled pairs', 0.278, S16.loc['MASLD/NAFLD', 'frac_in_coupled_pair'])
+
+S17 = pd.read_csv(tab('Table_S17a_F4_switch_per_gene.csv'), index_col=0)
+chk('F4 switch genes up', 291, S17.switch_gene.sum()); chk('F4 switch genes down', 547, S17.switch_gene_down.sum())
+G17 = pd.read_csv(tab('Table_S17b_GSEA_F4_switch.csv')).set_index('Term')
+chk('switch GSEA TNFa/NF-kB NES', 3.5, G17.loc['TNFA_SIGNALING_VIA_NFKB', 'NES']); chk('switch GSEA YAP/TAZ NES', 2.1, G17.loc['MECH: YAP/TAZ targets', 'NES'])
+T17 = pd.read_csv(tab('Table_S17c_TF_activity_F4_switch.csv')); chk('TFs switching at F4', 30, (T17.q_adj < 0.05).sum())
+chk('switch ACF lag1', 0.11, pd.read_csv(tab('Table_S17d_F4_switch_spatial_autocorrelation.csv')).acf.iloc[0])
+
+TT = pd.read_csv(tab('Table_S17h_target_timing.csv'), index_col=0)
+chk('targets, early and linear', 86, (TT.timing == 'early, linear').sum()); chk('targets, switch at F4', 17, (TT.timing == 'switch at F4').sum())
+chk('switch targets in endothelium', 9, ((TT.timing == 'switch at F4') & (TT.lineage == 'Endotelio')).sum(), tol=0)  # target timing
+
+SN = pd.read_csv(tab('Table_S18c_snRNA_concordance_with_bulk.csv')).set_index('population')
+chk('snRNA hepatocyte rho (hepatocyte-specific genes, biopsies)', 0.29, SN.loc['Hepatocyte', 'rho_hepspec_vs_bulk_adjusted'], tol=0.1)
+SNa = pd.read_csv(tab('Table_S18f_snRNA_neighbour_coupling.csv')).set_index('population'); chk('snRNA hepatocyte coupling z', 17, SNa.loc['Hepatocyte', 'z'], tol=0.1)
+SNs = pd.read_csv(tab('Table_S18g_snRNA_F4_switch_by_population.csv')); r_ = SNs[(SNs.population == 'Hepatocyte (+end stage)') & (SNs.score == 'switch_genes')].iloc[0]
+chk('snRNA hepatocyte switch-gene step t', 5.8, r_.t_step_F4, tol=0.1)  # snRNA
 
 R = pd.DataFrame(checks); R.to_csv(tab('audit_number_checks.csv'), index=False)
 pd.set_option('display.width', 200); print(R.to_string(index=False))

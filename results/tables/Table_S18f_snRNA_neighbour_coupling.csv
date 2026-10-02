@@ -1,0 +1,15 @@
+population,genes,acf_lag1,null_p97.5,z
+Hepatocyte,11801,0.1553,0.0162,17.0293
+Hepatocyte (+end stage),11891,0.16,0.0127,18.3939
+Cholangiocyte,5640,0.0583,0.0183,4.8465
+Cholangiocyte (+end stage),6383,0.0673,0.0195,5.6877
+HSC,4718,0.0739,0.0255,5.4236
+HSC (+end stage),4773,0.0295,0.0266,2.2736
+Endothelium,7970,0.0926,0.02,8.6537
+Endothelium (+end stage),8009,0.0947,0.0184,8.7917
+Macrophage,4709,0.0033,0.0241,0.4279
+Macrophage (+end stage),5493,0.1284,0.0268,9.0069
+T/NK,4747,0.0218,0.0254,1.8612
+T/NK (+end stage),5104,0.0388,0.0239,3.3066
+B/Plasma,2854,0.0576,0.0278,3.3244
+B/Plasma (+end stage),3378,0.0457,0.0263,2.9923

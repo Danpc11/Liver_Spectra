@@ -32,7 +32,9 @@ cholangiocyte dAIC at F3,8.6,8.627,True
 cholangiocyte dAIC at F4,13.6,13.602,True
 stellate dAIC at F4,4.5,4.476,True
 F3 hepatocyte dBIC,12.8,12.7698,True
-F3 minor component,0.08,0.08,True
+F3 with F4-like composition,0.57,0.5658,True
+"YAP/TAZ, F4-like F3",0.32,0.3217,True
+"YAP/TAZ, F4",0.91,0.9148,True
 sc ACF macrophage,0.099,0.0985,True
 sc ACF endothelium,0.08,0.0805,True
 sc ACF stellate,0.066,0.0659,True
@@ -51,8 +53,20 @@ shared eQTL P,0.016,0.0157,True
 biopsy peaks universal in GTEx liver,0.28,0.2796,True
 r biopsy vs GTEx liver,0.47,0.4674,True
 YAP/TAZ dAIC at F4,28.8,28.8011,True
-YAP/TAZ adjusted t at F4,5.0,5.0275,True
-crosslinking adjusted t at F4,0.9,0.9424,True
+YAP/TAZ adjusted t at F4,5.0,5.0274,True
+crosslinking adjusted t at F4,0.9,0.9423,True
 cirrhosis loci in DE neighbourhoods,0.229,0.2292,True
 cirrhosis loci local ACF,0.169,0.1692,True
 MASLD loci in coupled pairs,0.278,0.2775,True
+F4 switch genes up,291.0,291.0,True
+F4 switch genes down,547.0,547.0,True
+switch GSEA TNFa/NF-kB NES,3.5,3.4559,True
+switch GSEA YAP/TAZ NES,2.1,2.1138,True
+TFs switching at F4,30.0,30.0,True
+switch ACF lag1,0.11,0.1059,True
+"targets, early and linear",86.0,86.0,True
+"targets, switch at F4",17.0,17.0,True
+switch targets in endothelium,9.0,9.0,True
+"snRNA hepatocyte rho (hepatocyte-specific genes, biopsies)",0.29,0.2857,True
+snRNA hepatocyte coupling z,17.0,17.0293,True
+snRNA hepatocyte switch-gene step t,5.8,5.8043,True
