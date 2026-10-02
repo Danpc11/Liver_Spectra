@@ -1,0 +1,26 @@
+Gene,Cell type (scRNA-seq),Bulk t (stage),Bulk t (composition-adjusted),Max within-cell-type t,Cis-coupled neighbour,Target class,Agents / status,Development stage
+IER3,"macrophage,endothelium",10.8,4.0,4.4,"FLOT1,DDR1",IER3,not druggable,none
+MMP2,"macrophage,endothelium",11.9,2.9,4.5,LPCAT2,MMP2,broad MMP inhibitors failed in oncology; no fibrosis programme,tool compounds
+EPDR1,endothelium,7.6,4.2,2.1,STARD3NL,,,not curated
+LGALS3,endothelium,12.9,2.9,2.9,MAPK1IP1L,galectin-3,belapectin (GR-MD-02): phase 2b NASH cirrhosis negative on fibrosis (NCT02462967); phase 3 NAVIGATE (NCT04365868) reported 2025,"clinical, liver"
+THBS2,stellate,16.3,7.4,2.1,SMOC2,THBS2,serum biomarker of advanced fibrosis; no modulator,biomarker
+IGFBP7,endothelium,13.1,5.1,2.4,POLR2B,IGFBP7,antibody preclinical (senescence/cardiometabolic); CKD biomarker,preclinical
+PLAU,macrophage,12.9,4.6,2.0,VCL,uPA,amiloride/UK-371804 inhibit uPA; anti-uPAR antibodies preclinical,tool compounds
+ANKRD29,endothelium,10.3,6.1,4.6,"NPC1,LAMA3",,,not curated
+CCN2,endothelium,8.9,3.0,3.0,MOXD1,CTGF,pamrevlumab (FG-3019): IPF phase 3; liver fibrosis phase 2 paused,"clinical, other fibrosis"
+CD300LG,endothelium,5.3,1.5,3.6,MPP3,,,not curated
+TNFRSF10A,"cholangiocyte,endothelium",5.1,1.8,3.3,,TRAIL-R1,agonist antibodies (mapatumumab) oncology,"clinical, other"
+ANGPTL2,endothelium,8.0,1.7,3.3,RALGPS1,ANGPTL2,no modulator; ANGPTL3 antibodies approved (evinacumab),none
+RPS27L,stellate,9.1,7.2,2.6,RAB8B,,,not curated
+IL32,cholangiocyte,13.6,6.7,2.6,,IL-32,no modulator; cytokine linked to MASLD,none
+MYL12B,"stellate,endothelium",8.5,5.3,3.7,TGIF1,,,not curated
+S100A11,"stellate,macrophage,endothelium",11.5,4.0,4.7,,S100A11,no modulator,none
+CD109,endothelium,6.8,1.5,2.4,COL12A1,,,not curated
+GSN,endothelium,12.7,5.7,2.7,STOM,gelsolin,recombinant plasma gelsolin clinical (sepsis),"clinical, other"
+FABP5,endothelium,9.5,3.2,4.6,PAG1,FABP5,FABP4/5 inhibitors preclinical,preclinical
+TIMP1,stellate,12.2,5.3,2.3,,TIMP1,no direct modulator; ELF-score biomarker,biomarker
+CCN1,endothelium,10.8,5.4,2.2,,,,not curated
+TREM2,macrophage,11.0,4.6,2.8,,TREM2,agonist antibodies in development (neurodegeneration); scar-associated macrophage marker; no liver trial,preclinical
+ISCU,endothelium,4.7,4.9,2.6,TMEM119,,,not curated
+PYCARD,macrophage,7.9,3.1,3.8,ITGAM,ASC/inflammasome,"NLRP3 inhibitors (MCC950 class, dapansutrile, DFV890) in clinical development incl. MASH","clinical, inflammasome"
+CARD16,macrophage,9.3,3.2,3.6,CASP1,caspase-1 axis,"VX-765 (belnacasan) caspase-1 inhibitor, clinical history","clinical, other"

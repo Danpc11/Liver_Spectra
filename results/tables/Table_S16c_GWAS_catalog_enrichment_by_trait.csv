@@ -1,0 +1,6 @@
+trait_set,n_assoc,locus_genes_on_grid,frac_in_coupled_pair,bg_coupled,P_coupled,frac_in_DE_neighbourhood,bg_nbhd,P_nbhd,acf_windows,acf_random,acf_random_sd,P_acf,mean_|t|_neighbours,mean_|t|_genome
+MASLD/NAFLD,395,209,0.2775,0.2148,0.0189,0.1435,0.1096,0.0759,0.0422,0.0357,0.0226,0.415,3.1782,3.1078
+liver fibrosis/cirrhosis,127,48,0.3261,0.2148,0.0534,0.2292,0.1096,0.0132,0.1692,0.0426,0.0509,0.005,3.4827,3.1078
+ALT (liver enzyme),2972,737,0.2192,0.2148,0.3998,0.1357,0.1096,0.0155,0.0709,0.0355,0.0163,0.005,3.1862,3.1078
+height (control),25778,5521,0.2246,0.2148,0.04,0.1114,0.1096,0.3396,0.0562,0.0367,0.016,0.1,3.3559,3.1078
+educational attainment (control),9141,2195,0.2264,0.2148,0.0987,0.118,0.1096,0.1106,0.0124,0.0348,0.0159,0.925,3.1566,3.1078

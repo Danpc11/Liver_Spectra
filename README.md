@@ -50,6 +50,8 @@ the printed precision.
 | 09 | `09_make_figures.py` | Figures 1–5 (Nature style, 183 mm, Okabe–Ito / viridis) | `Fig1`–`Fig5` |
 | 10 | `10_make_circos.py` | Figures 6–7 (circos genome map; TF × Hallmark chord) | `Fig6`, `Fig7`, S5j |
 | 12 | `12_eqtl_shared_variants.py` | liver eQTL credible sets (eQTL Catalogue QTD000266): shared causal variants in coupled vs uncoupled neighbours | S13a–c |
+| 15 | `15_gwas_loci_neighbourhoods.py` | MASLD/cirrhosis GWAS loci (curated + GWAS Catalog with non-liver controls) in coupled neighbourhoods | S16, S16b–d |
+| 16 | `16_make_figures_jhep.py` | Figures 1–6 and Table 1 for the Journal of Hepatology version (clinical framing) | `results/figures/jhep/` |
 | 14 | `14_eqtl_gtex_signif_pairs.py` | GTEx v8 liver significant eQTL pairs: shared (same-direction) variants in coupled vs uncoupled neighbours, MH stratified by distance | S13d–g |
 | 13 | `13_gtex_tissues.py` | spectra in 11 GTEx tissues; tissue specificity of the architecture; replication of biopsy peaks | S14a–f, Extended Data Fig. 2 |
 | 11 | `11_mouse_validation.py` | own mouse fatty-liver data (CTL vs UTP, n = 3 + 3): DESeq2, invariant spectrum, spatial coupling, distance decay, syntenic human pairs | S12a–e, Extended Data Fig. 1 |
@@ -76,6 +78,7 @@ the printed precision.
 | `TAD-stability-heritability-master/data/20binsTADlandscape/Liver_leung2015/` | liver TAD partitions (hg19), 20 bins per domain | github.com/emcarthur/TAD-stability-heritability |
 | `GSE136103/*_{matrix.mtx,genes.tsv,barcodes.tsv}.gz` | Ramachandran 2019 human liver scRNA-seq (20 liver samples used) | GEO GSE136103 (`GSE136103_RAW.tar`, 436 MB, manual download) |
 | `QTD000266.credible_sets.tsv.gz` | GTEx liver eQTL fine-mapped credible sets | eQTL Catalogue FTP `susie/QTS000015/QTD000266/` |
+| `gwas-catalog-download-associations-v1.0-full.tsv` | GWAS Catalog full associations (P < 5e-8 filtered in script 15) | GWAS Catalog downloads |
 | `Liver.v8.signif_variant_gene_pairs.txt.gz`, `Liver.v8.egenes.txt.gz` | GTEx v8 liver single-tissue cis-eQTL (significant pairs, eGenes) | GTEx Portal, QTL downloads (GTEx_Analysis_v8_eQTL.tar) |
 | `gtex/gene_reads_*_<tissue>.gct.gz` (11) | GTEx gene read counts per tissue (v11; whole blood v10) | GTEx Portal, bulk tissue expression |
 | GRCh37 Ensembl 100 gene table | coordinates and strand | bundled in the `pyannotables` package |
@@ -113,6 +116,12 @@ the printed precision.
 Fig1 invariant architecture · Fig2 stage effects on the spectrum · Fig3 spatial coupling and TADs ·
 Fig4 composition and thresholds · Fig5 single-cell coupling and targets · Fig6 genome circos · Fig7 TF × Hallmark chord ·
 Extended Data Fig1 mouse validation.
+
+## Audit
+
+`AUDIT.md` reports a clean re-run of the pipeline, an automated cross-check of 60 numbers quoted in the
+manuscripts against the regenerated tables (`results/tables/audit_number_checks.csv`; 58 matched, 2 corrected),
+a component-by-component methodological review, and the open items before submission.
 
 ## Notes on reproducibility
 
