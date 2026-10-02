@@ -22,8 +22,6 @@ The result the repository exists to support is that **fibrosis progression has t
 More than half of F3 biopsies already carry an F4-like cell composition without the mechanical programme: composition
 does not define cirrhosis, the switch does.
 
-![Two layers of MASLD fibrosis: linear cell replacement and a composition-independent switch at F4](assets/overview.png)
-
 ---
 
 ## Key findings
