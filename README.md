@@ -2,7 +2,6 @@
 ### Positional spectra and cis-coupled gene neighbourhoods across the MASLD fibrosis spectrum
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Audit](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml/badge.svg)](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml)
 [![DOI](https://img.shields.io/badge/DOI-pending-lightgrey)](#citation)
 
 ---
