@@ -1,5 +1,4 @@
 # Liver Spectra
-
 ### Positional spectra and cis-coupled gene neighbourhoods across the MASLD fibrosis spectrum
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
