@@ -1,0 +1,5 @@
+set,n,r_mouse,ci_low,ci_high
+all syntenic neighbour pairs,6799,0.0876,0.0622,0.1127
+coupled in human fibrosis,748,0.0868,0.017,0.1637
+not coupled in human,6051,0.0864,0.0602,0.1141
+random gene pairs,6799,-0.0001,-0.0217,0.0234

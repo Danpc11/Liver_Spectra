@@ -1,0 +1,7 @@
+coupling,outcome,n_coupled,frac_coupled,n_uncoupled,frac_uncoupled,MH_OR_distance_stratified,CI_low,CI_high,MH_p
+"coupled (stage, |t|>3)",share >=1 significant variant,118,0.4237,579,0.2953,1.6326,1.0575,2.5204,0.0279
+"coupled (stage, |t|>3)",share variant with same-direction effect,118,0.3136,579,0.1952,1.7601,1.1125,2.7847,0.0157
+"coupled (stage, |t|>3)",lead variant of one is significant for the other,118,0.2966,579,0.2245,1.3235,0.8266,2.1193,0.2488
+coupled after composition (|t|>2),share >=1 significant variant,52,0.2308,560,0.3,0.5643,0.2789,1.1416,0.1061
+coupled after composition (|t|>2),share variant with same-direction effect,52,0.1538,560,0.1982,0.623,0.2723,1.4253,0.2688
+coupled after composition (|t|>2),lead variant of one is significant for the other,52,0.1731,560,0.2286,0.5241,0.2376,1.156,0.107

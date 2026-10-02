@@ -1,0 +1,12 @@
+tissue,biopsy_peaks_universal,of,odds_vs_background,p
+adipose_subcutaneous,17,186,5.88675,0.0
+adipose_visceral_omentum,22,186,8.88949,0.0
+artery_aorta,20,186,6.14012,0.0
+brain_cerebellar_hemisphere,15,186,3.44298,9e-05
+colon_transverse,17,186,10.63757,0.0
+kidney_cortex,17,186,6.71259,0.0
+liver,52,186,31.37139,0.0
+lung,15,186,6.97368,0.0
+muscle_skeletal,14,186,5.01022,0.0
+pancreas,25,186,7.46972,0.0
+whole_blood,8,186,3.40344,0.00382

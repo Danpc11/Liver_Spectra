@@ -1,0 +1,5 @@
+coupling_definition,eqtl_definition,n_coupled,frac_shared_coupled,n_uncoupled,frac_shared_uncoupled,MH_odds_ratio_distance_stratified,MH_CI_low,MH_CI_high,MH_p
+"coupled (stage, |t|>3)",any shared credible variant,21,0.381,81,0.2222,2.0681,0.6738,6.3477,0.209
+"coupled (stage, |t|>3)",shared variant PIP product >= 0.01,21,0.0476,81,0.1111,0.3752,0.0442,3.1818,0.3571
+coupled after composition (|t|>2),any shared credible variant,6,0.3333,81,0.2222,1.6609,0.2981,9.2548,0.5329
+coupled after composition (|t|>2),shared variant PIP product >= 0.01,6,0.0,81,0.1111,0.0,,,0.408

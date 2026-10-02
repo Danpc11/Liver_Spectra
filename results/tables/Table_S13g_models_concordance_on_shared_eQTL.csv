@@ -1,0 +1,4 @@
+predictor,OR_concordant_sign,CI_low,CI_high,p,delta_coexpr,p_coexpr
+shares,1.1568,0.8551,1.5651,0.3448,0.0432,0.0422
+shares_same_dir,1.1274,0.802,1.5847,0.4901,0.0859,0.0003
+lead_shared,0.9715,0.6992,1.3499,0.8634,0.0265,0.254

@@ -49,6 +49,10 @@ the printed precision.
 | 08 | `08_targets_fingerprint.py` | lineage-intrinsic target prioritisation (bulk × composition × single cell, + curated drug landscape); spectral fingerprint with real vs shuffled gene order (leave-one-cohort-out) | S9a–b, S11 |
 | 09 | `09_make_figures.py` | Figures 1–5 (Nature style, 183 mm, Okabe–Ito / viridis) | `Fig1`–`Fig5` |
 | 10 | `10_make_circos.py` | Figures 6–7 (circos genome map; TF × Hallmark chord) | `Fig6`, `Fig7`, S5j |
+| 12 | `12_eqtl_shared_variants.py` | liver eQTL credible sets (eQTL Catalogue QTD000266): shared causal variants in coupled vs uncoupled neighbours | S13a–c |
+| 14 | `14_eqtl_gtex_signif_pairs.py` | GTEx v8 liver significant eQTL pairs: shared (same-direction) variants in coupled vs uncoupled neighbours, MH stratified by distance | S13d–g |
+| 13 | `13_gtex_tissues.py` | spectra in 11 GTEx tissues; tissue specificity of the architecture; replication of biopsy peaks | S14a–f, Extended Data Fig. 2 |
+| 11 | `11_mouse_validation.py` | own mouse fatty-liver data (CTL vs UTP, n = 3 + 3): DESeq2, invariant spectrum, spatial coupling, distance decay, syntenic human pairs | S12a–e, Extended Data Fig. 1 |
 
 ## Data manifest
 
@@ -60,6 +64,7 @@ the printed precision.
 | `counts/counts_GSE135251.tsv` | raw gene counts × 216 samples | 15 MB | GEO GSE135251 (Govaere 2020) |
 | `counts/counts_GSE162694.tsv` | raw gene counts × 143 samples | 10 MB | GEO GSE162694 (Pantano 2021) |
 | `metadata/metadata_cruda_GSE*.tsv` (3) | GEO sample characteristics (fibrosis stage, NAS, sex, age) | <100 kB | GEO series matrices |
+| `own/mcounts.tsv` | own mouse liver RNA-seq counts (CTL1–3, UTP1–3; ARC-UTP columns present but not used) | 3 MB | this study (to be deposited in GEO) |
 | `grid/<GSE>_rejilla_genes.tsv` (5) | positional grid: chr, grid_index, gene_id, gene_name (same gene → same index in every file; union is used) | 2–3 MB | this project |
 
 ### B. Public external resources (fetched by `00_fetch_external.sh`; `data/external/`)
@@ -70,6 +75,9 @@ the printed precision.
 | `hallmark.gmt` | MSigDB Hallmark v7.0 symbols | public mirror (replace with official MSigDB download) |
 | `TAD-stability-heritability-master/data/20binsTADlandscape/Liver_leung2015/` | liver TAD partitions (hg19), 20 bins per domain | github.com/emcarthur/TAD-stability-heritability |
 | `GSE136103/*_{matrix.mtx,genes.tsv,barcodes.tsv}.gz` | Ramachandran 2019 human liver scRNA-seq (20 liver samples used) | GEO GSE136103 (`GSE136103_RAW.tar`, 436 MB, manual download) |
+| `QTD000266.credible_sets.tsv.gz` | GTEx liver eQTL fine-mapped credible sets | eQTL Catalogue FTP `susie/QTS000015/QTD000266/` |
+| `Liver.v8.signif_variant_gene_pairs.txt.gz`, `Liver.v8.egenes.txt.gz` | GTEx v8 liver single-tissue cis-eQTL (significant pairs, eGenes) | GTEx Portal, QTL downloads (GTEx_Analysis_v8_eQTL.tar) |
+| `gtex/gene_reads_*_<tissue>.gct.gz` (11) | GTEx gene read counts per tissue (v11; whole blood v10) | GTEx Portal, bulk tissue expression |
 | GRCh37 Ensembl 100 gene table | coordinates and strand | bundled in the `pyannotables` package |
 
 ### C. Generated tables (`results/tables/`; Supplementary Tables of the manuscript)
@@ -98,11 +106,13 @@ the printed precision.
 | S9a–b | `Table_S9a_candidate_targets_lineage_intrinsic.csv`, `Table_S9b_integration_bulk_sc_per_gene.csv` | prioritised targets with drug landscape; full integration table | 08 |
 | S10a–h | `Table_S10a_GSEA_hallmark_ordinal.csv`, `Table_S10b_GSEA_hallmark_composition_adjusted.csv`, `Table_S10c_dorothea_ABC_regulons_used.csv`, `Table_S10d_DoRothEA_TF_activity_vs_stage.csv`, `Table_S10e_TF_activity_per_sample.csv`, `Table_S10f_shared_TF_coupled_pairs.csv`, `Table_S10g_shared_TFs_by_direction.csv`, `Table_S10h_TF_x_Hallmark_overlap.csv` | GSEA, TF activity, shared regulators, TF × pathway matrix | 07 |
 | S11 | `Table_S11_spectral_fingerprint_real_vs_shuffled.csv` | leave-one-cohort-out classification, real vs shuffled gene order | 08 |
+| S12a–e | `Table_S12a_mouse_DESeq2_UTP_vs_CTL.csv`, `Table_S12b_mouse_spectrum_universal_peaks.csv`, `Table_S12c_mouse_spatial_autocorrelation.csv`, `Table_S12d_mouse_concordance_by_distance.csv`, `Table_S12e_mouse_syntenic_pairs.csv` | mouse validation: DE, spectrum, ACF, distance decay, syntenic pairs | 11 |
 
 ### D. Generated figures (`results/figures/`, PDF vector + PNG 400 dpi)
 
 Fig1 invariant architecture · Fig2 stage effects on the spectrum · Fig3 spatial coupling and TADs ·
-Fig4 composition and thresholds · Fig5 single-cell coupling and targets · Fig6 genome circos · Fig7 TF × Hallmark chord.
+Fig4 composition and thresholds · Fig5 single-cell coupling and targets · Fig6 genome circos · Fig7 TF × Hallmark chord ·
+Extended Data Fig1 mouse validation.
 
 ## Notes on reproducibility
 
