@@ -5,6 +5,7 @@ from pycirclize import Circos
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 from common import *
+GRFIG = os.path.join(FIG, 'genome_research'); os.makedirs(GRFIG, exist_ok=True)
 
 OI = {'blue': '#0072B2', 'orange': '#E69F00', 'green': '#009E73', 'red': '#D55E00', 'purple': '#CC79A7', 'sky': '#56B4E9', 'grey': '#7F7F7F'}
 X, keep = pd.read_pickle(inter('expr.pkl')); de, de2 = pd.read_pickle(inter('de.pkl')); grid = load_grid(); N = chrom_lengths(grid)
@@ -44,7 +45,7 @@ for _, r in L.iterrows():
 fig = circos.plotfig(figsize=(7.5, 8.2), dpi=300)
 handles = [Patch(fc=OI['red'], label='Stage effect per gene, up (outer: DESeq2; middle: composition-adjusted)'), Patch(fc=OI['blue'], label='Stage effect per gene, down'), Line2D([], [], marker='o', ls='', color=OI['orange'], ms=4, label='NF-κB (NFKB1/RELA) target'), Line2D([], [], marker='o', ls='', color=OI['purple'], ms=4, label='TP53 target'), Patch(fc=OI['red'], alpha=.6, label='Contiguous DE neighbourhood (≥3 genes)'), Line2D([], [], color=OI['green'], lw=1.2, label='Lineage-intrinsic candidate target'), Line2D([], [], color='0.5', lw=1, label='Link: neighbourhood → Hallmark pathway (leading edge)')]
 fig.legend(handles=handles, loc='lower center', ncol=2, fontsize=6, frameon=False, bbox_to_anchor=(0.5, -0.06))
-fig.savefig(f'{FIG}/Fig6_circos_genome_pathways_TF.png', dpi=400, bbox_inches='tight'); fig.savefig(f'{FIG}/Fig6_circos_genome_pathways_TF.pdf', bbox_inches='tight'); plt.close(fig)
+fig.savefig(f'{GRFIG}/Fig6_circos_genome_pathways_TF.png', dpi=400, bbox_inches='tight'); fig.savefig(f'{GRFIG}/Fig6_circos_genome_pathways_TF.pdf', bbox_inches='tight'); plt.close(fig)
 
 # ---- Fig 7
 sig = TF[TF.q_adj_comp < 0.05]; up = set(sig[sig.t_stage_comp_adjusted > 0].tf)
@@ -55,4 +56,4 @@ circos2 = Circos.chord_diagram(Mx, space=2.5, cmap=cmap, label_kws=dict(size=6.5
 fig2 = circos2.plotfig(figsize=(7.5, 7.5), dpi=300)
 handles = [Patch(fc=OI['red'], label='TF: activity increases with stage\n(DoRothEA A–C; composition-adjusted q<0.05)'), Patch(fc=OI['blue'], label='TF: activity decreases with stage'), Patch(fc='0.6', label='Ribbon width = regulon ∩ pathway leading edge (genes); colour = pathway')]
 fig2.legend(handles=handles, loc='upper left', fontsize=6.5, frameon=False, bbox_to_anchor=(0.01, 0.99))
-fig2.savefig(f'{FIG}/Fig7_circos_TF_Hallmark.png', dpi=400, bbox_inches='tight'); fig2.savefig(f'{FIG}/Fig7_circos_TF_Hallmark.pdf', bbox_inches='tight'); print('ok')
+fig2.savefig(f'{GRFIG}/Fig7_circos_TF_Hallmark.png', dpi=400, bbox_inches='tight'); fig2.savefig(f'{GRFIG}/Fig7_circos_TF_Hallmark.pdf', bbox_inches='tight'); print('ok')

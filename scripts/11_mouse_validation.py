@@ -105,4 +105,4 @@ ax.set_xticks(range(len(DEC))); ax.set_xticklabels(['overlap', '<1', '1–10', '
 ax = axs[3]; cols = [OI['grey'], OI['red'], OI['orange'], '0.75']
 ax.bar(range(4), SY.r_mouse, color=cols, lw=0, width=0.65); ax.errorbar(range(4), SY.r_mouse, yerr=[SY.r_mouse - SY.ci_low, SY.ci_high - SY.r_mouse], fmt='none', color='k', lw=0.6, capsize=2)
 ax.set_xticks(range(4)); ax.set_xticklabels(['all\nsyntenic', 'coupled\nin human', 'not coupled\nin human', 'random\npairs'], fontsize=6); ax.set_ylabel('Concordance of UTP effect\nbetween neighbours (r)'); ax.axhline(0, color='0.6', lw=0.5); lab(ax, 'd')
-fig.savefig(os.path.join(FIG, 'ExtendedData_Fig1_mouse_validation.pdf'), bbox_inches='tight'); fig.savefig(os.path.join(FIG, 'ExtendedData_Fig1_mouse_validation.png'), dpi=400, bbox_inches='tight'); print('figure ok')
+fig.savefig(os.path.join(FIG, 'genome_research', 'ExtendedData_Fig1_mouse_validation.pdf'), bbox_inches='tight'); fig.savefig(os.path.join(FIG, 'genome_research', 'ExtendedData_Fig1_mouse_validation.png'), dpi=400, bbox_inches='tight'); print('figure ok')

@@ -8,17 +8,21 @@ neighbourhoods in MASLD fibrosis"*. Every table and figure in the paper is produ
 ```
 liver-positional-spectra/
 ├── README.md               this file (data manifest at the end)
-├── requirements.txt        Python 3.12 dependencies (pip install -r requirements.txt)
-├── Makefile                `make all` runs scripts 01–10; `make figures` only 09–10
+├── AUDIT.md                reproducibility and methodology audit
+├── CHANGELOG.md            release notes · CITATION.cff · .zenodo.json · LICENSE (MIT)
+├── requirements.txt        pinned Python 3.12 dependencies (pip install -r requirements.txt)
+├── Makefile                `make all` · `make analysis` · `make figures` · `make audit` · `make external`
 ├── data/
 │   ├── raw/                INPUTS the user supplies (counts, GEO metadata, positional grid)
 │   ├── external/           PUBLIC resources fetched by scripts/00_fetch_external.sh
 │   └── curated/            drug_landscape.csv (manual curation of the top candidate targets)
-├── scripts/                00–10 (see below) + common.py (paths, constants, marker sets, helpers)
+├── scripts/                00–16 (see below), audit_numbers.py and common.py (paths, constants, marker sets, helpers)
 └── results/
     ├── intermediate/       pickles passed between steps (not needed for the paper)
-    ├── tables/             Supplementary Tables S1–S11 (CSV) — all GENERATED
-    └── figures/            Fig1–Fig7 (PDF + PNG) — all GENERATED
+    ├── tables/             Supplementary Tables S1–S16 (CSV) + audit_number_checks.csv — all GENERATED
+    └── figures/
+        ├── genome_research/  Figs 1–5, circos Figs 6–7, Extended Data Figs 1–2 (PDF + PNG)
+        └── jhep/             Figs 1–6 (PDF + PNG + TIFF 300 dpi) and Table1_targets.csv
 ```
 
 ## Quick start
@@ -26,9 +30,16 @@ liver-positional-spectra/
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-bash scripts/00_fetch_external.sh          # DoRothEA, Hallmark GMT, liver TADs; then place GSE136103_RAW.tar
-make all                                   # ≈ 25 min on one core, < 3 GB RAM
+make external          # DoRothEA, Hallmark GMT, liver TADs; then add the manual files listed
+                       # in data/external/README.md (GSE136103, GTEx, eQTL, GWAS Catalog)
+make all               # full pipeline: ~35 min on one core, < 3 GB RAM
+make audit             # re-check the numbers quoted in the manuscripts (57 checks)
+
+# `make figures` on its own needs results/intermediate/, produced by `make analysis` or `make all`.
 ```
+
+Only `data/raw/` ships with the repository; the external resources are downloaded (see
+`data/external/README.md`) because of their size and their own licences.
 
 Scripts are run from `scripts/` (or via `make`) and locate the repository root automatically. Random seeds are
 fixed (`numpy.random.default_rng(0/1)`), so permutation nulls and the shuffled-order control are reproducible to
@@ -47,14 +58,14 @@ the printed precision.
 | 06 | `06_single_cell.py` | GSE136103 QC, marker annotation, pseudobulk, within-type cirrhosis-vs-healthy t, within-type ACF and neighbour co-expression | S8a–d |
 | 07 | `07_gsea_tf.py` | GSEA pre-ranked (Hallmark) on ordinal and composition-adjusted statistics; DoRothEA A–C TF activity vs stage; shared TFs in coupled pairs; TF × Hallmark overlap | S10a–h |
 | 08 | `08_targets_fingerprint.py` | lineage-intrinsic target prioritisation (bulk × composition × single cell, + curated drug landscape); spectral fingerprint with real vs shuffled gene order (leave-one-cohort-out) | S9a–b, S11 |
-| 09 | `09_make_figures.py` | Figures 1–5 (Nature style, 183 mm, Okabe–Ito / viridis) | `Fig1`–`Fig5` |
-| 10 | `10_make_circos.py` | Figures 6–7 (circos genome map; TF × Hallmark chord) | `Fig6`, `Fig7`, S5j |
-| 12 | `12_eqtl_shared_variants.py` | liver eQTL credible sets (eQTL Catalogue QTD000266): shared causal variants in coupled vs uncoupled neighbours | S13a–c |
-| 15 | `15_gwas_loci_neighbourhoods.py` | MASLD/cirrhosis GWAS loci (curated + GWAS Catalog with non-liver controls) in coupled neighbourhoods | S16, S16b–d |
-| 16 | `16_make_figures_jhep.py` | Figures 1–6 and Table 1 for the Journal of Hepatology version (clinical framing) | `results/figures/jhep/` |
-| 14 | `14_eqtl_gtex_signif_pairs.py` | GTEx v8 liver significant eQTL pairs: shared (same-direction) variants in coupled vs uncoupled neighbours, MH stratified by distance | S13d–g |
-| 13 | `13_gtex_tissues.py` | spectra in 11 GTEx tissues; tissue specificity of the architecture; replication of biopsy peaks | S14a–f, Extended Data Fig. 2 |
+| 09 | `09_make_figures.py` | Genome Research figure set, Figs 1–5 | `results/figures/genome_research/` |
+| 10 | `10_make_circos.py` | Genome Research Figs 6–7 (circos genome map; TF × Hallmark chord) | `results/figures/genome_research/`, S5j |
 | 11 | `11_mouse_validation.py` | own mouse fatty-liver data (CTL vs UTP, n = 3 + 3): DESeq2, invariant spectrum, spatial coupling, distance decay, syntenic human pairs | S12a–e, Extended Data Fig. 1 |
+| 12 | `12_eqtl_shared_variants.py` | liver eQTL credible sets (eQTL Catalogue QTD000266): shared causal variants in coupled vs uncoupled neighbours | S13a–c |
+| 13 | `13_gtex_tissues.py` | spectra in 11 GTEx tissues; tissue specificity of the architecture; replication of biopsy peaks | S14a–f, Extended Data Fig. 2 |
+| 14 | `14_eqtl_gtex_signif_pairs.py` | GTEx v8 liver significant eQTL pairs: shared (same-direction) variants in coupled vs uncoupled neighbours, MH stratified by distance | S13d–g |
+| 15 | `15_gwas_loci_neighbourhoods.py` | MASLD/cirrhosis GWAS loci (curated + GWAS Catalog with non-liver controls) in coupled neighbourhoods | S16, S16b–d |
+| 16 | `16_figures_jhep.py` | Journal of Hepatology figure set (Figs 1–6, final numbering) and Table 1 | `results/figures/jhep/` |
 
 ## Data manifest
 
@@ -65,9 +76,9 @@ the printed precision.
 | `counts/counts_GSE130970.tsv` | raw gene counts, 26,808 Ensembl genes × 78 samples | 12 MB | GEO GSE130970 (Hoang 2019) |
 | `counts/counts_GSE135251.tsv` | raw gene counts × 216 samples | 15 MB | GEO GSE135251 (Govaere 2020) |
 | `counts/counts_GSE162694.tsv` | raw gene counts × 143 samples | 10 MB | GEO GSE162694 (Pantano 2021) |
-| `metadata/metadata_cruda_GSE*.tsv` (3) | GEO sample characteristics (fibrosis stage, NAS, sex, age) | <100 kB | GEO series matrices |
+| `metadata/metadata_GSE*.tsv` (3) | GEO sample characteristics (fibrosis stage, NAS, sex, age) | <100 kB | GEO series matrices |
 | `own/mcounts.tsv` | own mouse liver RNA-seq counts (CTL1–3, UTP1–3; ARC-UTP columns present but not used) | 3 MB | this study (to be deposited in GEO) |
-| `grid/<GSE>_rejilla_genes.tsv` (5) | positional grid: chr, grid_index, gene_id, gene_name (same gene → same index in every file; union is used) | 2–3 MB | this project |
+| `grid/<GSE>_gene_grid.tsv` (5) | positional grid: chr, grid_index, gene_id, gene_name (same gene → same index in every file; union is used) | 2–3 MB | this project |
 
 ### B. Public external resources (fetched by `00_fetch_external.sh`; `data/external/`)
 
@@ -122,6 +133,24 @@ Extended Data Fig1 mouse validation.
 `AUDIT.md` reports a clean re-run of the pipeline, an automated cross-check of 60 numbers quoted in the
 manuscripts against the regenerated tables (`results/tables/audit_number_checks.csv`; 58 matched, 2 corrected),
 a component-by-component methodological review, and the open items before submission.
+
+## Column glossary (Spanish labels kept for provenance)
+
+The pipeline was developed in Spanish and some column values in the generated tables retain Spanish
+labels. They are stable identifiers, not free text:
+
+| In the tables | Meaning |
+| --- | --- |
+| `estadio` | condition / fibrosis stage (`Normal`, `Control`, `F0`–`F4`) |
+| `orden` | ordinal stage, 0 (Normal/Control) to 5 (F4) |
+| `cohorte`, `muestra`, `sexo`, `edad` | cohort, sample, sex, age |
+| `Hepatocito`, `HSC`, `Colangiocito`, `Macrofago`, `Linfocito`, `Endotelio` | hepatocyte, stellate/myofibroblast, cholangiocyte, macrophage, lymphocyte, endothelium |
+| `Mesenquima_HSC`, `Fagocito_mononuclear` | single-cell populations: mesenchyme/stellate, mononuclear phagocyte |
+| `banda`, `periodo` | period band, period in genes |
+
+The positional grid is the union of five per-cohort grid files; two of them (GSE142530, GSE276114)
+come from cohorts that are not otherwise analysed but contribute gene slots, so all five files are
+required to reproduce the published grid.
 
 ## Notes on reproducibility
 

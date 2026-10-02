@@ -77,4 +77,4 @@ Cm = Cm.loc[order, order]; im = ax.imshow(Cm.values, cmap='viridis', vmin=0, vma
 cb = plt.colorbar(im, ax=ax, fraction=0.045, pad=0.03); cb.set_label('r, consensus spectra (common genes)', fontsize=6); ax.tick_params(length=0); ax.spines[['left', 'bottom']].set_visible(False); lab(ax, 'd', -0.45, 1.06)
 ax = fig.add_subplot(gs_[1, :2]); h = nuniv[nuniv > 0].value_counts().sort_index()
 ax.bar(h.index, h.values, color='0.55', lw=0, width=0.7); ax.set_xticks(range(1, 12)); ax.set_xlabel('Number of tissues in which a frequency is a universal peak'); ax.set_ylabel('Frequencies'); ax.set_yscale('log'); lab(ax, 'c', -0.1)
-fig.savefig(os.path.join(FIG, 'ExtendedData_Fig2_gtex_tissues.pdf'), bbox_inches='tight'); fig.savefig(os.path.join(FIG, 'ExtendedData_Fig2_gtex_tissues.png'), dpi=400, bbox_inches='tight'); print('figure ok')
+fig.savefig(os.path.join(FIG, 'genome_research', 'ExtendedData_Fig2_gtex_tissues.pdf'), bbox_inches='tight'); fig.savefig(os.path.join(FIG, 'genome_research', 'ExtendedData_Fig2_gtex_tissues.png'), dpi=400, bbox_inches='tight'); print('figure ok')

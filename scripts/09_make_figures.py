@@ -9,7 +9,7 @@ plt.rcParams.update({'font.family':'sans-serif','font.sans-serif':['Liberation S
  'axes.spines.top':False,'axes.spines.right':False,'legend.frameon':False,'pdf.fonttype':42,'ps.fonttype':42,'figure.dpi':150})
 MM=1/25.4; W2=183*MM
 from common import *
-FO=FIG; OUT=TAB
+FO=os.path.join(FIG,'genome_research'); os.makedirs(FO,exist_ok=True); OUT=TAB
 ST=['Normal','F0','F1','F2','F3','F4']; stage_pal=dict(zip(ST,sns.color_palette('viridis',6)))
 OI={'blue':'#0072B2','orange':'#E69F00','green':'#009E73','red':'#D55E00','purple':'#CC79A7','sky':'#56B4E9','yellow':'#F0E442','grey':'#7F7F7F'}
 Wz,Wl=pd.read_pickle(inter('W_adj.pkl')); M=pd.read_pickle(inter('meta.pkl'))

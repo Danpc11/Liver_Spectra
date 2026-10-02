@@ -1,11 +1,37 @@
-PY=python3
-S=scripts
-.PHONY: all external figures clean
-all: $(S)/01_prepare_expression.py
-	cd $(S) && $(PY) 01_prepare_expression.py && $(PY) 02_spectra.py && $(PY) 03_specparam.py && $(PY) 04_differential_expression.py && $(PY) 05_composition_distance_tads.py && $(PY) 06_single_cell.py && $(PY) 07_gsea_tf.py && $(PY) 08_targets_fingerprint.py && $(PY) 09_make_figures.py && $(PY) 10_make_circos.py && $(PY) 11_mouse_validation.py && $(PY) 12_eqtl_shared_variants.py && $(PY) 13_gtex_tissues.py && $(PY) 14_eqtl_gtex_signif_pairs.py
+PY ?= python3
+S  := scripts
+STEPS := 01_prepare_expression 02_spectra 03_specparam 04_differential_expression \
+         05_composition_distance_tads 06_single_cell 07_gsea_tf 08_targets_fingerprint \
+         09_make_figures 10_make_circos 11_mouse_validation 12_eqtl_shared_variants \
+         13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods 16_figures_jhep
+
+.PHONY: all external analysis figures audit clean help
+help:
+	@echo "make external  — download the public external resources (see data/external/README.md)"
+	@echo "make all       — full pipeline, raw inputs to tables and figures (~35 min)"
+	@echo "make analysis  — steps 01-08 and 11-15 (tables only)"
+	@echo "make figures   — steps 09, 10 and 16 (needs results/intermediate from a previous run)"
+	@echo "make audit     — re-check the numbers quoted in the manuscripts"
+	@echo "make clean     — delete generated results"
+
+all:
+	@set -e; cd $(S); for s in $(STEPS); do echo ">>> $$s"; $(PY) $$s.py; done
+
+analysis:
+	@set -e; cd $(S); for s in 01_prepare_expression 02_spectra 03_specparam 04_differential_expression 05_composition_distance_tads 06_single_cell 07_gsea_tf 08_targets_fingerprint 11_mouse_validation 12_eqtl_shared_variants 13_gtex_tissues 14_eqtl_gtex_signif_pairs 15_gwas_loci_neighbourhoods; do echo ">>> $$s"; $(PY) $$s.py; done
+
+# The figure scripts read results/intermediate/*.pkl, so run `make all` (or `make analysis`) at least
+# once before `make figures`; `make clean` removes those intermediates.
+figures:
+	@test -f results/intermediate/pairs.pkl || { echo "results/intermediate is empty — run 'make analysis' first"; exit 1; }
+	@set -e; cd $(S); for s in 09_make_figures 10_make_circos 16_figures_jhep; do echo ">>> $$s"; $(PY) $$s.py; done
+
 external:
 	bash $(S)/00_fetch_external.sh
-figures:
-	cd $(S) && $(PY) 09_make_figures.py && $(PY) 10_make_circos.py && $(PY) 11_mouse_validation.py
+
+audit:
+	cd $(S) && $(PY) audit_numbers.py
+
 clean:
-	rm -rf results/intermediate/* results/tables/* results/figures/*
+	rm -rf results/intermediate/* results/tables/* results/figures/genome_research/* results/figures/jhep/*
+	touch results/intermediate/.gitkeep

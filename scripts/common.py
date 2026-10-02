@@ -8,7 +8,7 @@ EXT = os.path.join(ROOT, 'data', 'external')
 TAB = os.path.join(ROOT, 'results', 'tables')
 FIG = os.path.join(ROOT, 'results', 'figures')
 INTER = os.path.join(ROOT, 'results', 'intermediate')
-for d in (TAB, FIG, INTER):
+for d in (TAB, FIG, INTER, os.path.join(FIG, 'genome_research'), os.path.join(FIG, 'jhep')):
     os.makedirs(d, exist_ok=True)
 
 COHORTS = ['GSE130970', 'GSE135251', 'GSE162694']
@@ -30,7 +30,7 @@ def inter(name):
 
 def load_grid():
     """Positional grid: union of the per-cohort rejilla_genes.tsv files (same gene -> same grid_index)."""
-    files = glob.glob(os.path.join(RAW, 'grid', '*rejilla_genes*.tsv'))
+    files = glob.glob(os.path.join(RAW, 'grid', '*_gene_grid.tsv'))
     g = pd.concat([pd.read_csv(f, sep='\t') for f in files]).drop_duplicates('gene_id')
     g['chr'] = g['chr'].astype(str)
     return g

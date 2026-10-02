@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or the derived tables, please cite the article and this repository."
+title: "liver-positional-spectra: positional spectra and cis-coupled gene neighbourhoods in MASLD fibrosis"
+abstract: >-
+  Reproducible pipeline analysing 437 staged human liver biopsies, single-cell RNA-seq,
+  11 GTEx tissues, liver eQTLs, GWAS Catalog loci and mouse liver RNA-seq to separate the
+  compositional and cell-intrinsic layers of MASLD fibrosis and to characterise cis-coupled
+  gene neighbourhoods.
+version: 1.0.0
+date-released: "2026-10-02"
+license: MIT
+authors:
+  - family-names: "[Surname]"
+    given-names: "[Given]"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+keywords: [MASLD, liver fibrosis, gene order, local co-expression, cell composition, eQTL, mechanotransduction]
+repository-code: "https://github.com/[org]/liver-positional-spectra"

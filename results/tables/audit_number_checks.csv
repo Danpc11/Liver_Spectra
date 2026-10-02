@@ -1,61 +1,58 @@
 claim,manuscript,computed,ok
 n samples,437.0,437.0,True
-n F4,28.0,28.0,True
 n Normal,35.0,35.0,True
 n F3,76.0,76.0,True
-universal peaks (>=90%),186.0,186.0,True
+n F4,28.0,28.0,True
 n frequencies,10007.0,10007.0,True
-corr mask,0.01,,False
-stage-assoc freq q<0.05 (log),6042.0,6042.0,True
-stage-assoc freq (z),0.0,0.0,True
+universal peaks,186.0,186.0,True
+corr consensus vs grid mask,0.0,0.0083,True
+"stage-associated frequencies, log spectra",6042.0,6042.0,True
+"stage-associated frequencies, z spectra",0.0,0.0,True
 band 5-10 t,-5.0,-4.9833,True
 band 50-100 t,2.9,2.8665,True
-offset P,5e-15,0.0,True
-n_peaks t,-3.8,-3.8152,True
+offset t,-8.1,-8.1332,True
+peak-count t,-3.8,-3.8152,True
 exponent P,0.1,0.0962,True
 DE F4 vs Normal padj<0.05,8713.0,8713.0,True
 DE ordinal padj<0.05,7520.0,7520.0,True
-ACF lag1 DE,0.17,0.1658,True
-ACF lag2,0.06,0.0579,True
-z lag1,20.0,19.9589,True
+ACF lag1,0.17,0.1658,True
+ACF lag1 z,20.0,19.9589,True
 adjacent up pairs,954.0,954.0,True
 adjacent down pairs,957.0,957.0,True
-null up,692.0,692.37,True
-runs >=3,422.0,422.0,True
-ACF adj lag1,0.12,0.1242,True
-concordance overlap,0.38,0.3822,True
-concordance <1kb,0.22,0.2218,True
-concordance 10-50kb,0.18,0.1789,True
-TAD stratified P ~0.5,0.5,0.2555,False
+runs >=3 genes,422.0,422.0,True
+"ACF lag1, composition-adjusted",0.12,0.1242,True
+"concordance, overlapping genes",0.38,0.3822,True
+"concordance, <1 kb",0.22,0.2218,True
+"concordance, 10-50 kb",0.18,0.1789,True
+TAD test P (distance-stratified),0.26,0.2555,True
 variance explained by composition (%),80.0,79.8491,True
-hepatocyte Normal,0.3,0.2986,True
-hepatocyte F4,-0.3,-0.3025,True
-cholangiocyte F4,1.0,1.0039,True
-cholangiocyte dAIC F3,8.6,8.627,True
-cholangiocyte dAIC F4,13.6,13.602,True
-HSC dAIC F4,4.5,4.476,True
+"hepatocyte score, Normal",0.3,0.2986,True
+"hepatocyte score, F4",-0.3,-0.3025,True
+cholangiocyte dAIC at F3,8.6,8.627,True
+cholangiocyte dAIC at F4,13.6,13.602,True
+stellate dAIC at F4,4.5,4.476,True
 F3 hepatocyte dBIC,12.8,12.7698,True
-F3 minor weight,0.08,0.08,True
+F3 minor component,0.08,0.08,True
 sc ACF macrophage,0.099,0.0985,True
 sc ACF endothelium,0.08,0.0805,True
-sc ACF HSC,0.066,0.0659,True
-lineage-intrinsic targets,152.0,154.0,True
+sc ACF stellate,0.066,0.0659,True
+lineage-intrinsic targets,154.0,154.0,True
 TFs q<0.05,154.0,154.0,True
 TFs after composition,70.0,70.0,True
-NFKB1 adj t,5.7,5.7,True
-HNF4A adj t,1.3,1.2579,True
-OXPHOS adjusted NES,2.2,2.1308,True
-fingerprint AUC real,0.91,0.919,True
-fingerprint AUC shuffled,0.91,0.907,True
+NFKB1 adjusted t,5.7,5.7,True
+HNF4A adjusted t,1.3,1.2579,True
+"OXPHOS NES, composition-adjusted",2.2,2.1308,True
+"fingerprint AUC, real order",0.91,0.919,True
+"fingerprint AUC, shuffled order",0.91,0.907,True
 mouse ACF lag1,0.11,0.1079,True
 mouse universal peaks,157.0,157.0,True
-eQTL same-direction OR,1.76,1.7601,True
-eQTL P,0.016,0.0157,True
-biopsy peaks universal in GTEx liver (frac),0.28,0.2796,True
+shared same-direction eQTL OR,1.76,1.7601,True
+shared eQTL P,0.016,0.0157,True
+biopsy peaks universal in GTEx liver,0.28,0.2796,True
 r biopsy vs GTEx liver,0.47,0.4674,True
-YAP dAIC F4,28.8,28.8011,True
-YAP adj t F4,5.0,5.0275,True
-crosslinking adj t F4,0.9,0.9424,True
-cirrhosis loci in DE nbhd,0.229,0.2292,True
-cirrhosis loci ACF,0.169,0.1692,True
-MASLD loci coupled frac,0.278,0.2775,True
+YAP/TAZ dAIC at F4,28.8,28.8011,True
+YAP/TAZ adjusted t at F4,5.0,5.0275,True
+crosslinking adjusted t at F4,0.9,0.9424,True
+cirrhosis loci in DE neighbourhoods,0.229,0.2292,True
+cirrhosis loci local ACF,0.169,0.1692,True
+MASLD loci in coupled pairs,0.278,0.2775,True

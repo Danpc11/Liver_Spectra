@@ -10,7 +10,7 @@ grid = load_grid()
 counts, rows = {}, []
 for c in COHORTS:
     counts[c] = pd.read_csv(os.path.join(RAW, 'counts', f'counts_{c}.tsv'), sep='\t', index_col=0)
-    d = pd.read_csv(os.path.join(RAW, 'metadata', f'metadata_cruda_{c}.tsv'), sep='\t')
+    d = pd.read_csv(os.path.join(RAW, 'metadata', f'metadata_{c}.tsv'), sep='\t')
     ch = [col for col in d.columns if col.startswith('characteristics_ch1')]
     for _, r in d.iterrows():
         kv = {}
