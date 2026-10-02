@@ -41,7 +41,6 @@ does not define cirrhosis, the switch does.
    *LGALS3*) and 17 belong to the F4 switch (*CCN2*/CTGF, *CCN1*, *TIMP1*, *VWF*); hepatocyte drug receptors are lost
    mainly with hepatocytes, with THR-β also falling per cell (Fig. 6).
 
-Every number above is re-checked against the regenerated tables by `scripts/audit_numbers.py` (see [Audit](#audit)).
 
 ---
 
