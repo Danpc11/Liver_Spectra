@@ -1,51 +1,188 @@
-# Positional spectra of the human liver transcriptome in MASLD fibrosis
+# Liver Spectra
 
-Reproducible pipeline for the manuscript *"The liver reads its genome in neighbourhoods: positional spectra of the
-human liver transcriptome reveal an invariant architecture, composition-driven change and cis-coupled gene
-neighbourhoods in MASLD fibrosis"*. Every table and figure in the paper is produced by the numbered scripts in
-`scripts/`, run in order, from the raw inputs listed below.
+### Positional spectra and cis-coupled gene neighbourhoods across the MASLD fibrosis spectrum
+
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Audit](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml/badge.svg)](https://github.com/Danpc11/Liver_Spectra/actions/workflows/audit.yml)
+[![DOI](https://img.shields.io/badge/DOI-pending-lightgrey)](#citation)
+
+---
+
+## What this is
+
+This repository reproduces every table and figure of a study that asks how the human liver transcriptome changes from
+normal histology to cirrhosis (F4) in metabolic dysfunction-associated steatotic liver disease (MASLD), which part of
+that change is cell replacement, which part is cell-intrinsic, and where mechanosensitive signalling enters.
+
+The result the repository exists to support is that **fibrosis progression has two layers with different dynamics**:
+
+| Layer | What it is | How it behaves |
+| --- | --- | --- |
+| **Compositional** | replacement of hepatocytes by hepatic stellate cells, immune cells and ductular epithelium | linear in stage; explains **80%** of stage-associated expression change |
+| **Cell-intrinsic** | programmes that change within lineages, organised in cis-coupled gene neighbourhoods | includes a YAP/TAZ mechanotransduction programme that is flat through F3 and **switches on at F4**, independently of composition |
+
+More than half of F3 biopsies already carry an F4-like cell composition without the mechanical programme: composition
+does not define cirrhosis, the switch does.
+
+![Two layers of MASLD fibrosis: linear cell replacement and a composition-independent switch at F4](assets/overview.png)
+
+---
+
+## Key findings
+
+1. **A stage-invariant positional architecture.** Ordering genes by chromosomal position and computing positional
+   spectra in 437 biopsies reveals 186 spatial frequencies present in ≥90% of biopsies, specific to liver among 11 GTEx
+   tissues and unchanged from normal liver to F4 (Fig. 1).
+2. **Linear cell replacement with thresholds.** Composition explains 80% of the per-gene stage effect; the ductular
+   and stellate compartments rise stepwise at F3–F4 (Fig. 2).
+3. **A mechanical switch at F4.** 291 genes rise and 547 fall abruptly at F4 after composition adjustment, led by
+   YAP/TAZ targets (*CCN1*, *CCN2*, *AMOTL2*, *THBS1*), driven by SMAD, NF-κB, STAT3 and HIF1A activity and organised in
+   genomic domains of 10–300 genes (Fig. 3).
+4. **Cis-coupled neighbourhoods within every lineage.** Neighbouring genes change together (lag-1 autocorrelation
+   0.17, z = 20), share liver eQTL variants (odds ratio 1.76), and stay coupled within each cell population in single-cell
+   and single-nucleus RNA-seq, hepatocytes included (z = 17) (Figs. 4–5).
+5. **Therapeutic timing.** Of 154 lineage-intrinsic targets, 86 rise early and linearly (*THBS2*, *TREM2*, *IL32*,
+   *LGALS3*) and 17 belong to the F4 switch (*CCN2*/CTGF, *CCN1*, *TIMP1*, *VWF*); hepatocyte drug receptors are lost
+   mainly with hepatocytes, with THR-β also falling per cell (Fig. 6).
+
+Every number above is re-checked against the regenerated tables by `scripts/audit_numbers.py` (see [Audit](#audit)).
+
+---
+
+## Included datasets
+
+| Dataset | Content | Role here | Reference |
+| --- | --- | --- | --- |
+| [GSE130970](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130970) | bulk RNA-seq, 78 liver biopsies | discovery cohort | Hoang et al., *Sci Rep* 2019 · [10.1038/s41598-019-48746-5](https://doi.org/10.1038/s41598-019-48746-5) |
+| [GSE135251](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE135251) | bulk RNA-seq, 216 liver biopsies | discovery cohort | Govaere et al., *Sci Transl Med* 2020 · [10.1126/scitranslmed.aba4448](https://doi.org/10.1126/scitranslmed.aba4448) |
+| [GSE162694](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162694) | bulk RNA-seq, 143 livers incl. normal histology | discovery cohort | Pantano et al., *Sci Rep* 2021 · [10.1038/s41598-021-96966-5](https://doi.org/10.1038/s41598-021-96966-5) |
+| [GSE136103](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE136103) | scRNA-seq, 5 healthy and 5 cirrhotic livers | within-lineage validation (non-parenchymal) | Ramachandran et al., *Nature* 2019 · [10.1038/s41586-019-1631-3](https://doi.org/10.1038/s41586-019-1631-3) |
+| [GSE202379](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE202379) | snRNA-seq, 59 samples from 47 SAF-staged donors | within-lineage validation incl. hepatocytes | Gribben et al., *Nature* 2024 · [10.1038/s41586-024-07465-2](https://doi.org/10.1038/s41586-024-07465-2) |
+| [GTEx v8 / v10–11](https://gtexportal.org) | liver cis-eQTL; bulk expression of 11 tissues | shared eQTLs; tissue specificity | GTEx Consortium, *Science* 2020 · [10.1126/science.aaz1776](https://doi.org/10.1126/science.aaz1776) |
+| [eQTL Catalogue QTD000266](https://www.ebi.ac.uk/eqtl/) | fine-mapped liver eQTL credible sets | shared eQTLs (fine-mapped) | Kerimov et al., *PLoS Genet* 2023 · [10.1371/journal.pgen.1010932](https://doi.org/10.1371/journal.pgen.1010932) |
+| [GWAS Catalog](https://www.ebi.ac.uk/gwas/) | genome-wide significant associations | MASLD and cirrhosis loci, non-liver controls | Sollis et al., *Nucleic Acids Res* 2023 · [10.1093/nar/gkac1010](https://doi.org/10.1093/nar/gkac1010) |
+| [Liver TADs](https://github.com/emcarthur/TAD-stability-heritability) | liver topologically associating domains (hg19) | TAD test | McArthur & Capra, *Am J Hum Genet* 2021 · [10.1016/j.ajhg.2020.12.008](https://doi.org/10.1016/j.ajhg.2020.12.008) |
+| [DoRothEA](https://github.com/saezlab/dorothea) · [MSigDB Hallmark](https://www.gsea-msigdb.org) | TF regulons; Hallmark gene sets | TF activity; GSEA | Garcia-Alonso et al., *Genome Res* 2019 · Liberzon et al., *Cell Syst* 2015 |
+| this study | mouse liver RNA-seq (control vs UTP, n = 3 + 3) | cross-species replication | GEO accession pending |
+
+The three bulk cohorts are shipped in `data/raw/` as raw counts; all other resources are downloaded (see
+[Reproduce the analysis](#reproduce-the-analysis)), because of their size and their own licences.
+
+---
+
+## Figures
+
+| | | |
+| --- | --- | --- |
+| [![Fig. 1](results/figures/jhep/Fig1_design_and_positional_framework.png)](results/figures/jhep/Fig1_design_and_positional_framework.pdf) **Fig. 1** Positional framework | [![Fig. 2](results/figures/jhep/Fig2_linear_replacement_thresholds.png)](results/figures/jhep/Fig2_linear_replacement_thresholds.pdf) **Fig. 2** Linear replacement and thresholds | [![Fig. 3](results/figures/jhep/Fig3_mechanical_switch.png)](results/figures/jhep/Fig3_mechanical_switch.pdf) **Fig. 3** The mechanical switch |
+| [![Fig. 4](results/figures/jhep/Fig4_neighbourhood_coupling.png)](results/figures/jhep/Fig4_neighbourhood_coupling.pdf) **Fig. 4** Cis-coupled neighbourhoods | [![Fig. 5](results/figures/jhep/Fig5_genome_circos.png)](results/figures/jhep/Fig5_genome_circos.pdf) **Fig. 5** Genome-wide map | [![Fig. 6](results/figures/jhep/Fig6_two_layers_and_targets.png)](results/figures/jhep/Fig6_two_layers_and_targets.pdf) **Fig. 6** Two layers and targets |
+
+Vector PDFs and 300-dpi TIFFs are in `results/figures/jhep/`; supplementary figures are `SuppFig_*` in the same folder.
+A second figure set formatted for *Genome Research* is in `results/figures/genome_research/`.
+
+---
+
+## Repository structure
 
 ```
-liver-positional-spectra/
-├── README.md               this file (data manifest at the end)
-├── AUDIT.md                reproducibility and methodology audit
-├── CHANGELOG.md            release notes · CITATION.cff · .zenodo.json · LICENSE (MIT)
-├── requirements.txt        pinned Python 3.12 dependencies (pip install -r requirements.txt)
-├── Makefile                `make all` · `make analysis` · `make figures` · `make audit` · `make external`
-├── data/
-│   ├── raw/                INPUTS the user supplies (counts, GEO metadata, positional grid)
-│   ├── external/           PUBLIC resources fetched by scripts/00_fetch_external.sh
-│   └── curated/            drug_landscape.csv (manual curation of the top candidate targets)
-├── scripts/                00–16 (see below), audit_numbers.py and common.py (paths, constants, marker sets, helpers)
-└── results/
-    ├── intermediate/       pickles passed between steps (not needed for the paper)
-    ├── tables/             Supplementary Tables S1–S16 (CSV) + audit_number_checks.csv — all GENERATED
-    └── figures/
-        ├── genome_research/  Figs 1–5, circos Figs 6–7, Extended Data Figs 1–2 (PDF + PNG)
-        └── jhep/             Figs 1–6, SuppFig_GWAS (PDF + PNG + TIFF 300 dpi) and Table1_targets.csv
+scripts/
+    common.py                    paths, constants, marker sets, shared statistics
+    00_fetch_external.sh         download the public resources
+    01–08                        expression, positional spectra, DE, composition, single cell, GSEA/TF, targets
+    11–15b                       mouse, eQTL, GTEx tissues, GWAS loci, the F4 mechanical switch
+    18_snrnaseq_gse202379.py     single-nucleus validation (47 donors)
+    09, 10, 16                   figures (Genome Research set; JHEP set)
+    audit_numbers.py             re-checks every number quoted in the manuscripts
+    99_readme_overview.py        the overview image above
+data/raw/                        bulk counts, GEO metadata, gene-order grid, mouse counts (shipped)
+data/external/                   downloaded resources (see data/external/README.md)
+data/curated/drug_landscape.csv  curated pharmacology of candidate targets
+results/tables/                  Supplementary Tables S1–S18 (CSV)
+results/figures/                 jhep/ and genome_research/ figure sets
+assets/                          README images
+AUDIT.md · CHANGELOG.md · CITATION.cff · .zenodo.json · LICENSE
 ```
 
-## Quick start
+---
+
+## Reproduce the analysis
 
 ```bash
+git clone https://github.com/Danpc11/Liver_Spectra.git && cd Liver_Spectra
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-make external          # DoRothEA, Hallmark GMT, liver TADs; then add the manual files listed
-                       # in data/external/README.md (GSE136103, GTEx, eQTL, GWAS Catalog)
-make all               # full pipeline: ~35 min on one core, < 3 GB RAM
-make audit             # re-check the numbers quoted in the manuscripts (57 checks)
 
-# `make figures` on its own needs results/intermediate/, produced by `make analysis` or `make all`.
+make external     # DoRothEA, Hallmark GMT, liver TADs; then add the files listed in data/external/README.md
+make all          # full pipeline, raw counts to every table and figure (~45 min, one core, < 3 GB RAM)
+make audit        # re-check the numbers quoted in the manuscripts
 ```
 
-Only `data/raw/` ships with the repository; the external resources are downloaded (see
-`data/external/README.md`) because of their size and their own licences.
+To check the released results without re-running anything, `make audit` alone reads the shipped tables in
+`results/tables/` and needs only numpy and pandas; this is what the Audit badge runs on every push.
 
-Scripts are run from `scripts/` (or via `make`) and locate the repository root automatically. Random seeds are
-fixed (`numpy.random.default_rng(0/1)`), so permutation nulls and the shuffled-order control are reproducible to
-the printed precision.
+| Target | Runs |
+| --- | --- |
+| `make external` | downloads the public resources |
+| `make analysis` | steps 01–08, 11–15b and 18 (tables only) |
+| `make figures` | steps 09, 10 and 16 (needs `results/intermediate/` from a previous run) |
+| `make all` | everything, in order |
+| `make audit` | the number checks |
+| `make clean` | deletes generated results |
 
-## Pipeline
+---
+
+## Audit
+
+`scripts/audit_numbers.py` recomputes 71 numbers quoted in the manuscripts from the regenerated tables and fails if any
+differs (all pass in v1.0.0). `AUDIT.md` reports the clean re-run, the component-by-component methodological review,
+the corrections made during review, and the open items.
+
+---
+
+## Limitations
+
+- **Cross-sectional data.** Irreversibility at F3–F4 is inferred from the threshold form and the cell-independence of
+  the response, not observed longitudinally; liver stiffness was not measured in these cohorts.
+- **Marker-based composition.** Composition scores come from marker sets on the same matrix that is then adjusted, so
+  the 80% figure is an upper bound and the adjusted effect is conservative for marker genes.
+- **Few F4 biopsies in snRNA-seq.** GSE202379 has four biopsy-staged F4 donors; F4 estimates there lean on five
+  end-stage explants, reported separately from biopsy-only estimates.
+- **Hepatocytes in scRNA-seq.** Dissociation-based scRNA-seq captures few hepatocytes; hepatocyte conclusions rest on
+  bulk data validated in snRNA-seq.
+- **Gene mapping of GWAS loci** assigns bystander genes, which dilutes the enrichment; the GWAS analysis is supplementary.
+- **The mechanical interpretation awaits a direct test** (hepatocytes and stellate cells on soft and stiff hydrogels,
+  with and without YAP–TEAD inhibition).
+
+The candidate targets are a ranking for follow-up, not a validated discovery set with error control.
+
+---
+
+## Publication
+
+**Liver fibrosis in MASLD progresses by linear cell replacement until a mechanically driven switch at the F3–F4
+transition.** Manuscript submitted to the *Journal of Hepatology*. Until it is published, please cite the archived
+software release below.
+
+---
+
+## Citation
+
+The software will be archived on Zenodo at the v1.0.0 release (DOI to be added). A machine-readable citation is in
+[`CITATION.cff`](CITATION.cff), which GitHub exposes through *Cite this repository*.
+
+---
+
+## Licence
+
+Source code is distributed under the [MIT licence](LICENSE). The third-party datasets analysed here (GEO, GTEx, eQTL
+Catalogue, GWAS Catalog, liver TAD partitions) remain under their own terms; values derived from them in
+`results/tables/` should be cited together with the original sources listed in [Included datasets](#included-datasets).
+
+---
+
+## Technical reference
+
+### Pipeline
 
 | Step | Script | What it does | Main outputs |
 | --- | --- | --- | --- |
@@ -69,9 +206,9 @@ the printed precision.
 | 18 | `18_snrnaseq_gse202379.py` | validation in snRNA-seq of 47 donors (GSE202379): annotation, donor pseudobulk, concordance with bulk, hepatocyte class, neighbour coupling, neighbour co-expression across nuclei and the F4 switch within populations; Figs 4D,E and 6E–G, Supplementary Fig. S8 | S18a–h |
 | 16 | `16_figures_jhep.py` | Journal of Hepatology figure set (Figs 1–6, Supplementary GWAS figure) and Table 1 | `results/figures/jhep/` |
 
-## Data manifest
+### Data manifest
 
-### A. Inputs to upload (not generated; `data/raw/`)
+#### A. Inputs to upload (not generated; `data/raw/`)
 
 | File | Content | Size | Source |
 | --- | --- | --- | --- |
@@ -82,7 +219,7 @@ the printed precision.
 | `own/mcounts.tsv` | own mouse liver RNA-seq counts (CTL1–3, UTP1–3; ARC-UTP columns present but not used) | 3 MB | this study (to be deposited in GEO) |
 | `grid/<GSE>_gene_grid.tsv` (5) | positional grid: chr, grid_index, gene_id, gene_name (same gene → same index in every file; union is used) | 2–3 MB | this project |
 
-### B. Public external resources (fetched by `00_fetch_external.sh`; `data/external/`)
+#### B. Public external resources (fetched by `00_fetch_external.sh`; `data/external/`)
 
 | File | Content | Source |
 | --- | --- | --- |
@@ -97,7 +234,7 @@ the printed precision.
 | `gtex/gene_reads_*_<tissue>.gct.gz` (11) | GTEx gene read counts per tissue (v11; whole blood v10) | GTEx Portal, bulk tissue expression |
 | GRCh37 Ensembl 100 gene table | coordinates and strand | bundled in the `pyannotables` package |
 
-### C. Generated tables (`results/tables/`; Supplementary Tables of the manuscript)
+#### C. Generated tables (`results/tables/`; Supplementary Tables of the manuscript)
 
 | Table | File | Content | Script |
 | --- | --- | --- | --- |
@@ -126,19 +263,13 @@ the printed precision.
 | S11 | `Table_S11_spectral_fingerprint_real_vs_shuffled.csv` | leave-one-cohort-out classification, real vs shuffled gene order | 08 |
 | S12a–e | `Table_S12a_mouse_DESeq2_UTP_vs_CTL.csv`, `Table_S12b_mouse_spectrum_universal_peaks.csv`, `Table_S12c_mouse_spatial_autocorrelation.csv`, `Table_S12d_mouse_concordance_by_distance.csv`, `Table_S12e_mouse_syntenic_pairs.csv` | mouse validation: DE, spectrum, ACF, distance decay, syntenic pairs | 11 |
 
-### D. Generated figures (`results/figures/`, PDF vector + PNG 400 dpi)
+#### D. Generated figures (`results/figures/`, PDF vector + PNG 400 dpi)
 
 Fig1 invariant architecture · Fig2 stage effects on the spectrum · Fig3 spatial coupling and TADs ·
 Fig4 composition and thresholds · Fig5 single-cell coupling and targets · Fig6 genome circos · Fig7 TF × Hallmark chord ·
 Extended Data Fig1 mouse validation.
 
-## Audit
-
-`AUDIT.md` reports a clean re-run of the pipeline, an automated cross-check of 60 numbers quoted in the
-manuscripts against the regenerated tables (`results/tables/audit_number_checks.csv`; 58 matched, 2 corrected),
-a component-by-component methodological review, and the open items before submission.
-
-## Column glossary (Spanish labels kept for provenance)
+### Column glossary (Spanish labels kept for provenance)
 
 The pipeline was developed in Spanish and some column values in the generated tables retain Spanish
 labels. They are stable identifiers, not free text:
@@ -156,7 +287,7 @@ The positional grid is the union of five per-cohort grid files; two of them (GSE
 come from cohorts that are not otherwise analysed but contribute gene slots, so all five files are
 required to reproduce the published grid.
 
-## Notes on reproducibility
+### Notes on reproducibility
 
 * Key numbers checked against the manuscript on a clean run: 13,816 genes; 186 universal peaks; stage-associated
   frequencies 6,042 (log) / 0 (z) / 6,345 (multitaper); DE padj<0.05 8,713 (F4 vs Normal) / 7,520 (ordinal);
